@@ -74,7 +74,7 @@ bot.once('ready', () => {
 
     setInterval(() => {
         loop_verification()
-    }, ms("2m"));
+    }, ms("5m"));
 
     setInterval(() => {
         channel_loop_verification()
