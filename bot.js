@@ -78,7 +78,7 @@ bot.once('ready', () => {
 
     setInterval(() => {
         channel_loop_verification()
-    }, ms("3m"))
+    }, ms("5m"))
 })
 
 bot.commands = new Discord.Collection();
