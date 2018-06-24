@@ -7,6 +7,9 @@
       "start": "node bot.js"
     },
     "dependencies": {
-      "discord.js": "11.3.0"
+      "discord.js": "11.3.0",
+      "ms": "2.1.1",
+      "twitch.tv-api": "1.2.4",
+      "fs": "0.0.1-security"
     }
   }
