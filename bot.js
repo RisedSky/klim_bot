@@ -176,7 +176,7 @@ bot.on("error", err => {
 
 bot.on("voiceStateUpdate", (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
-    var voice_create_voice_name = "Create voice"
+    var voice_create_voice_name = "créer votre salon privé"
 
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
         //Si le mec vient de join un vocal
