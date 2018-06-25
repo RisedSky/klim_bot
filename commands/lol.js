@@ -18,7 +18,7 @@ module.exports = {
         } else {
 
             usr.removeRole(role).then(() => {
-                msg.channel.send(`✅ Rôle \`${role_name}\` enlevé.`)
+                msg.channel.send(`✅ Rôle \`${role_name}\` supprimé.`)
             })
 
         }

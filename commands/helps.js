@@ -12,7 +12,7 @@ module.exports = {
             "```md\n" +
             `# Voici les différentes commandes du KLIM Bot.\n\n` +
             //`#» ${pfx} helps\nLes différentes commandes du KLIM Bot.\n\n` +
-            `#» ${pfx} rules\nLe règlement du Discord de KLIM.\n\n` +
+            //`#» ${pfx} rules\nLe règlement du Discord de KLIM.\n\n` +
             `#» ${pfx} roles\nLes différents rôles de la KLIM Community.\n\n` +
             `#» ${pfx} salons\nComment créer son propre salon privé ?` +
             "\n" +
