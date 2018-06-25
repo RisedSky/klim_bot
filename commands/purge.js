@@ -10,6 +10,8 @@ module.exports = {
 
         if (!call.bot.admin_id.includes(Mess_Member.id)) return call.message.reply(`Vous n'êtes pas autorisé à faire cette commande.`)
 
+        call.message.react("✅")
+
         if (!call.args[0]) return call.message.reply("Merci d'indiquer combien de messages tu veux supprimer.")
         else if (!parseInt(call.args[0])) return call.message.reply(`\`${call.args[0]}\` n'est pas un nombre !`)
         else if (call.args[0] > 100) {

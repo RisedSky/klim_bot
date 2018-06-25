@@ -7,6 +7,8 @@ module.exports = {
         var Mess_Member = call.message.member
             , pfx = call.prefix
 
+            call.message.react("✅")
+
         var help_msgToSend_cmds = (
             "\n" +
             "```md\n" +

@@ -4,6 +4,8 @@ module.exports = {
         var Discord = require("discord.js")
             , pfx = call.bot.config.prefix;
 
+            call.message.react("✅")
+
         var embed = new Discord.RichEmbed()
             //.setAuthor(`Les rôles vous permettrons d'accéder aux différents salons de vos jeux favoris.`, call.bot.user.avatarURL)
             .setAuthor(`Les commandes vous permettrons d'accéder aux différents salons de jeux.`, call.bot.user.avatarURL)

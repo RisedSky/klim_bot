@@ -9,6 +9,8 @@ module.exports = {
 
         if (!role) return msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
 
+        call.message.react("✅")
+
         if (!usr.roles.exists("name", role_name)) {
 
             usr.addRole(role).then(() => {
