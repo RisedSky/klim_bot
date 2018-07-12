@@ -59,12 +59,14 @@ const ms = require("ms")
 bot.once('ready', () => {
     bot.user.setStatus("online")
     console.log("------------------------------")
-    console.log(`${bot.prefixLog} Bot created by RisedSky`)
-    console.log(`${bot.prefixLog} All rights reserved`)
-    console.log(`${bot.prefixLog} Bot ready`)
+    console.log(`${bot.prefixLog} Bot créé par RisedSky`)
+    console.log(`${bot.prefixLog} Tous droits réservés`)
+    console.log(`${bot.prefixLog} Bot prêt`)
     console.log("------------------------------")
 
-    bot.user.setActivity(`${bot.config.prefix} help | Lancé et prêt !`);
+    //bot.user.setActivity(`${bot.config.prefix} help | Lancé et prêt !`);
+    bot.user.setActivity(`${bot.config.prefix} help | Lancé et prêt !`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
+
     setTimeout(ChangeState1, ms("15s"));
     console.log("The bot is now ready !")
 
@@ -139,11 +141,38 @@ bot.on("message", (message) => {
 
         if (message.content.substr(40, 45).includes("RT")) {
             if (message.deletable) message.delete()
-        }else if(message.content.substr(55, 60).includes("@")){
-            if(message.deletable) message.delete()
+        } else if (message.content.substr(55, 60).includes("@")) {
+            if (message.deletable) message.delete()
         }
 
         //return;
+    }
+
+    if (message.channel.id == "455787885371850754" && message.author.id == "404886025077522432") {
+        //verifie si le message est dans #partenaires et que le message est envoyé par le bot youtube
+
+        var content_message = message.content.split(/ +/g)
+
+        var user_new_content = content_message[0];
+        log(`User new content = '${user_new_content}'`)
+
+        message.channel.fetchMessages({ limit: 100, before: message.id })
+            .then(msgs => {
+                msgs.forEach(msg => {
+                    if (msg.content.includes(user_new_content)) {
+                        console.log("Detected");
+                        //if(msg.id == message.id) return;
+                        if (msg.deletable) msg.delete()
+                    } else {
+                        log("Not detected")
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(`Error sur le partenaires message`)
+                log(err)
+            })
+
     }
 
     if (message.content.startsWith(prefix) && !message.author.bot) {
