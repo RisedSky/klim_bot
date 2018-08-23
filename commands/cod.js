@@ -1,5 +1,5 @@
 module.exports = {
-    help: { name: "cod", aliases: ["COD"] },
+    help: { name: "cod", aliases: ["COD", "Cod"] },
     run: async (call) => {
         var msg = call.message;
         var usr = call.message.member;

@@ -10,9 +10,9 @@ module.exports = {
             //.setAuthor(`Les rôles vous permettrons d'accéder aux différents salons de vos jeux favoris.`, call.bot.user.avatarURL)
             .setAuthor(`Les commandes vous permettrons d'accéder aux différents salons de jeux.`, call.bot.user.avatarURL)
             //.setDescription(call.bot.invisible_emote + "\n")
-            .setDescription(`${call.bot.invisible_emote}\nCounter-Strike : ${pfx} csgo     |     Fortnite : ${pfx} ftn\n\nHearthStone : ${pfx} hs             |     League of Legends : ${pfx} lol\n\nOverWatch : ${pfx} ow             |     World of WarCraft : ${pfx} wow\n\nRainbow Six Siège : ${pfx} r6             |     Playerunknown's Battlegrounds : ${pfx} pubg\n\nCall of Duty : ${pfx} COD`)
+            .setDescription(`${call.bot.invisible_emote}\nCounter-Strike : ${pfx} csgo     |     Call of Duty : ${pfx} cod\n\nRainbow Six Siège : ${pfx} r6s     |     Fortnite : ${pfx} ftn\n\nPlayerunknown's Battlegrounds : ${pfx} pubg     |     League of Legends : ${pfx} lol\n\nOverWatch : ${pfx} ow     |     World of WarCraft : ${pfx} wow\n\nHearthStone : ${pfx} hs`)
             //.addField("--------------------------", call.bot.rolesArray)
-
+            
             /*
             .addField("Counter-Strike", `${pfx} csgo`, true)
             .addField("Counter-Strike", `${pfx} csgo`, true)
