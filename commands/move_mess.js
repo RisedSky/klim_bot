@@ -26,12 +26,12 @@ module.exports = {
             let salon_id = message.guild.channels.find("id", call.args[1].substr("2", "18"))
             if (!salon_id) return message.reply("Le salon donné ne menne vers nul part...").then(async m => await call.bot.deleteUserMessage(m, 5000))
 
-            message.channel.fetchMessages()
+            message.channel.fetchMessages({limit: 100})
                 .then(messages => {
-                    console.log(`${messages.filter(m => m.id === call.args[0]).size} messages`)
+                    //console.log(`${messages.filter(m => m.id === call.args[0]).size} messages`)
                     message_id = messages.first()
                     if (messages.filter(m => m.id === call.args[0]).size == 0 || !message_id) return message.reply("L'ID du message donné ne menne vers nul part").then(async m => await call.bot.deleteUserMessage(m, 5000))
-                    console.log(message_id)
+                    //console.log(message_id)
 
                     var mess_send = new Discord.RichEmbed()
                         .setColor("#FFFF00") //yellow
