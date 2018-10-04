@@ -1,5 +1,5 @@
 module.exports = {
-    help: { name: "csgo", aliases: ["Counter-Strike", "cs", "CSGO"] },
+    help: { name: "csgo", aliases: ["Counter-Strike", "cs", "css", "CSGO"] },
     run: async (call) => {
         var msg = call.message;
         var usr = call.message.member;
@@ -14,15 +14,16 @@ module.exports = {
         if (!usr.roles.exists("name", role_name)) {
 
             usr.addRole(role).then(() => {
-                msg.channel.send(`✅ Rôle \`${role_name}\` ajouté.`)
+                //msg.channel.send(`✅ Rôle \`${role_name}\` ajouté.`)
+                usr.createDM().then(c => c.send(`✅ Rôle \`${role_name}\` ajouté.`))
             })
 
         } else {
 
             usr.removeRole(role).then(() => {
-                msg.channel.send(`✅ Rôle \`${role_name}\` supprimé.`)
+                //msg.channel.send(`✅ Rôle \`${role_name}\` supprimé.`)
+                usr.createDM().then(c => c.send(`✅ Rôle \`${role_name}\` supprimé.`))
             })
-
         }
     }
 }
