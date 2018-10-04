@@ -39,7 +39,7 @@ module.exports = {
                         .setDescription(message_id.content)
                         .setFooter(`Message déplacé par ${call.message.member.user.tag}`)
                     salon_id.send(mess_send)
-                    message_id.delete()
+                    if(message_id.deletable) message_id.delete()
 
                 })
                 .catch(console.error);
