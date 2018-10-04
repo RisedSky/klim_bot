@@ -21,7 +21,7 @@ module.exports = {
                 return message.reply("❌ Vous devez absolument mettre la raison de votre avertissement.").then(m => { call.bot.deleteUserMessage(m, 10000) })
             }
 
-            var user_warned = message.guild.members.find("id", call.args[0].substr(2, 18))
+            var user_warned = message.guild.members.find("id", call.args[0])
             if (!user_warned) {
                 console.log("pas trouvé")
                 return message.reply(`Je n'ai pas trouvé l'utilisateur '\`${call.args[0]}\`'`)
@@ -52,74 +52,17 @@ module.exports = {
         }
 
         const category_name = String(message.channel.parent.name).toLowerCase() //Toujours en lowercase
-        let logs_channel;
         let serv = "453464806062817281"
+        let logs_channel = "495968450095742976"
 
-        let embed_warn = new Discord.RichEmbed()
+        let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
+
+        var warn_embed = new Discord.RichEmbed()
             .setColor("#FFFF00")
-            .setDescription(`:warning: L'utilisateur ${call.args[0]} a reçu un avertissement par ${call.bot.GetUserMention(message.author.id)}\n\nPour la raison suivante :\`\`\`${call.content.split(call.args[0])[1]}\`\`\``)
+            .setDescription(`:warning: L'utilisateur ${call.args[0]} a reçu un avertissement par ${call.bot.GetUserMention(message.author.id)} dans le salon : <#${message.channel.id}>\n\nPour la raison suivante : \`\`\`${call.content.split(call.args[0])[1]}\`\`\` `)
             .setTimestamp()
-        //(${call.args[0].substr("2", "18")})
+        salon.send(warn_embed)
 
-        if (category_name == "fortnite") {
-
-            logs_channel = "494181756858138636"
-
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "playerunknown's bg") {
-
-            logs_channel = "494182744121671720"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "call of duty") {
-
-            logs_channel = "494183270171410433"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "counter-strike") {
-
-            logs_channel = "494183411074727938"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "overwatch") {
-
-            logs_channel = "494183451126136832"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "rainbow six siège") {
-
-            logs_channel = "494183492557733888"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "league of legends") {
-
-            logs_channel = "494183856484646912"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else if (category_name == "w. warcraft & hearthstone") {
-
-            logs_channel = "494183906828877825"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-            salon.send(embed_warn)
-
-        } else {
-            logs_channel = "495968450095742976"
-            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-
-            var warn_embed = new Discord.RichEmbed()
-                .setColor("#FFFF00")
-                .setDescription(`:warning: L'utilisateur ${call.args[0]} a reçu un avertissement par ${call.bot.GetUserMention(message.author.id)} dans le salon : <#${message.channel.id}>\n\nPour la raison suivante : \`\`\`${call.content.split(call.args[0])[1]}\`\`\` `)
-                .setTimestamp()
-            salon.send(warn_embed)
-        }
 
     }
 }
