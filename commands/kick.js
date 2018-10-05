@@ -59,7 +59,7 @@ module.exports = {
 
         var warn_embed = new Discord.RichEmbed()
             .setColor("#E59400")
-            .setDescription(`:warning: L'utilisateur ${call.args[0]} a été kick par ${call.bot.GetUserMention(message.author.id)} dans le salon : <#${message.channel.id}>\n\nPour la raison suivante : \`\`\`${call.content.split(call.args[0])[1]}\`\`\` `)
+            .setDescription(`:warning: L'utilisateur ${call.bot.GetUserMention(call.args[0])} a été kick par ${call.bot.GetUserMention(message.author.id)} dans le salon : <#${message.channel.id}>\n\nPour la raison suivante : \`\`\`${call.content.split(call.args[0])[1]}\`\`\` `)
             .setTimestamp()
         salon.send(warn_embed)
 

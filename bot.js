@@ -86,7 +86,7 @@ bot.once('ready', () => {
 
 bot.on("messageUpdate", async (oldmsg, newmsg) => {
     var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
-    if (No_Show.includes(oldmsg.member.id)) return log("Don't show !");
+    if (No_Show.includes(newmsg.member.id)) return log("Don't show !");
 
     let serv = "453464806062817281"
     let update_embed = new Discord.RichEmbed()
@@ -181,7 +181,7 @@ bot.on("guildMemberAdd", async  member => {
         .setColor("GREEN")
         .setAuthor(`Bienvenue sur le serveur discord KLIM !`, bot.avatarURL)
         .setDescription(`Avant toute chose merci de lire ce message, puis ensuite d'aller lire le <#364687962916651010> !`)
-        .addField(`${bot.invisible_emote}\nLes salons vocaux privés de KLIM.`, `:small_blue_diamond: Vous avez accès à des salons privés sur notre serveur discord.\nAvec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM !\n\n:small_blue_diamond: Cliquez sur le salon "créer votre salon privé" dans la catégorie de votre choix.\n\nUne fois cela fait, vous allez avoir la permssion de muter les personnes **dans votre salon**.\n\n**Voici quelques points sur ces permissions**\nLorsque vous mutez quelqu'un avec le "Server Mute", le bot va détecter ce mute et va alors kicker la personne **de votre salon**\nSi cette personne en question revient dans votre salon, mutez le avec le "Server Deafen", il sera alors "banni" de votre salon **jusqu'à sa suppression**.`)
+        .addField(`${bot.invisible_emote}\nLes salons vocaux privés de KLIM.`, `:small_blue_diamond: Vous avez accès à des salons privés sur notre serveur discord.\nAvec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM !\n\n:small_blue_diamond: Cliquez sur le salon "créer votre salon privé" dans la section de jeu de votre choix.\n\nUne fois cela fait, vous allez avoir la permission de muter les personnes **dans votre salon**.\n\n**Voici quelques points sur ces permissions**\nLorsque vous mutez quelqu'un avec le "Server Mute", le bot va détecter ce mute et va alors kicker la personne **de votre salon**\nSi cette personne en question revient dans votre salon, mutez le avec le "Server Deafen", il sera alors "banni" de votre salon **jusqu'à sa suppression**.`)
     //.addBlankField()
     usr.createDM()
         .then(async c => {
@@ -235,7 +235,7 @@ class Call {
 }
 
 bot.on("message", (message) => {
-
+   
     const prefix = bot.config.prefix,
         cmd = message.content.slice(bot.config.prefix.length).trim().split(/ +/g).shift(),
         args = message.content.slice(bot.config.prefix.length).trim().split(/ +/g).join(" ").slice(cmd.length + 1).split(" "),
