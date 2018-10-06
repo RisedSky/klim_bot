@@ -30,8 +30,9 @@ module.exports = {
 
         var help_embed = new Discord.RichEmbed()
             .setColor("GREEN")
+            .setAuthor("Voici les différentes commandes du KLIM BOT", call.bot.user.avatarURL)
             .setDescription(
-                `*Voici les différentes commandes du KLIM BOT.*\n\n` +
+                //`*Voici les différentes commandes du KLIM BOT.*\n\n` +
                 `:small_orange_diamond: **${pfx} helps** :arrow_right: Les différentes commandes du KLIM Bot.\n` +
                 //`:small_orange_diamond: **${pfx} rules** :arrow_right: Le règlement du Discord de KLIM.\n` +
                 `:small_orange_diamond: **${pfx} roles** :arrow_right: Les différents rôles de la KLIM Community.\n` +
