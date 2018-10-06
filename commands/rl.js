@@ -7,22 +7,22 @@ module.exports = {
         var role = msg.guild.roles.find("name", "Rocket League")
             , role_name = "Rocket League"
 
-        if (!role) return msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
+        if (!role) return await msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
 
-        call.message.react("✅")
+        await call.message.react("✅")
 
         if (!usr.roles.exists("name", role_name)) {
 
-            usr.addRole(role).then(() => {
+            await usr.addRole(role).then(async () => {
                 //msg.channel.send(`✅ Rôle \`${role_name}\` ajouté.`)
-                usr.createDM().then(c => c.send(`✅ Rôle \`${role_name}\` ajouté.`))
+                await usr.createDM().then(async c => await c.send(`✅ Rôle \`${role_name}\` ajouté.`))
             })
 
         } else {
 
-            usr.removeRole(role).then(() => {
+            await usr.removeRole(role).then(async () => {
                 //msg.channel.send(`✅ Rôle \`${role_name}\` supprimé.`)
-                usr.createDM().then(c => c.send(`✅ Rôle \`${role_name}\` supprimé.`))
+                await usr.createDM().then(async c => await c.send(`✅ Rôle \`${role_name}\` supprimé.`))
             })
         }
     }

@@ -86,7 +86,8 @@ bot.once('ready', () => {
 
 bot.on("messageUpdate", async (oldmsg, newmsg) => {
     var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
-    if (No_Show.includes(newmsg.member.id)) return log("Don't show !");
+    if (oldmsg.member === null) return;
+    if (No_Show.includes(oldmsg.member.id)) return log("Don't show !");
 
     let serv = "453464806062817281"
     let update_embed = new Discord.RichEmbed()
@@ -104,12 +105,17 @@ bot.on("guildMemberRemove", async member => {
     if (!member.bannable) return log("Banni donc pas besoin de mettre la notif de kick")
     let serv = "453464806062817281"
 
-    member.guild.fetchAuditLogs({ type: 20, limit: 1 }).then(async logs => {
+    await member.guild.fetchAuditLogs({ type: 20, limit: 1 }).then(async logs => {
         var kick = await logs.entries.first()
+        if (kick.target.id != member.id) {
+            var salon = "498236604981182475"
+            bot.guilds.find("id", serv).channels.find("id", salon).send(`${member.user.tag} vient de quitter le discord`)
+            return log("Juste un leave");
+        }
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
         if (No_Show.includes(kick.executor.id)) return log("Don't show !");
-        log(kick.reason)
-        log(kick.executor.tag)
+        //log(kick.reason)
+        //log(kick.executor.tag)
 
         let kick_embed = new Discord.RichEmbed()
             .setColor("#E59400") //orange
@@ -155,7 +161,7 @@ bot.on("guildBanRemove", async (guild, member) => {
 bot.on("guildBanAdd", async (guild, member) => {
     let serv = "453464806062817281"
 
-    guild.fetchAuditLogs({ type: 22, limit: 1 }).then(async logs => {
+    await guild.fetchAuditLogs({ type: 22, limit: 1 }).then(async logs => {
         var ban = await logs.entries.first()
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
         if (No_Show.includes(ban.executor.id)) return log("Don't show !");
@@ -175,7 +181,7 @@ bot.on("guildBanAdd", async (guild, member) => {
 })
 
 
-bot.on("guildMemberAdd", async  member => {
+bot.on("guildMemberAdd", async member => {
     var usr = member
     let embed_welcome = new Discord.RichEmbed()
         .setColor("GREEN")
@@ -187,7 +193,10 @@ bot.on("guildMemberAdd", async  member => {
         .then(async c => {
             await c.send(embed_welcome)
         })
-        .catch(async e => { console.log(`Impossible de DM ${usr.tag}`); console.log(e) })
+        .catch(async e => {
+            await console.log(`Impossible de DM ${usr.tag}`);
+            await console.log(e)
+        })
 })
 
 bot.commands = new Discord.Collection();
@@ -234,13 +243,13 @@ class Call {
     }
 }
 
-bot.on("message", (message) => {
-   
-    const prefix = bot.config.prefix,
-        cmd = message.content.slice(bot.config.prefix.length).trim().split(/ +/g).shift(),
-        args = message.content.slice(bot.config.prefix.length).trim().split(/ +/g).join(" ").slice(cmd.length + 1).split(" "),
+bot.on("message", async (message) => {
+
+    const prefix = await bot.config.prefix,
+        cmd = await message.content.slice(bot.config.prefix.length).trim().split(/ +/g).shift(),
+        args = await message.content.slice(bot.config.prefix.length).trim().split(/ +/g).join(" ").slice(cmd.length + 1).split(" "),
         //cmd = message.content.slice(bot.config.prefix.length).trim().split(/ +/g),
-        content = args.join(" ");
+        content = await args.join(" ");
 
     if (message.channel.id == "453459420257714176" || message.channel.id == "370145947109425152") {
         //console.log(message.content);
@@ -248,9 +257,9 @@ bot.on("message", (message) => {
 
 
         if (message.content.substr(40, 45).includes("RT")) {
-            if (message.deletable) message.delete()
+            if (message.deletable) await message.delete()
         } else if (message.content.substr(55, 60).includes("@")) {
-            if (message.deletable) message.delete()
+            if (message.deletable) await message.delete()
         }
 
         //return;
@@ -259,77 +268,84 @@ bot.on("message", (message) => {
     if (message.channel.id == "455787885371850754" && message.author.id == "404886025077522432") {
         //verifie si le message est dans #partenaires et que le message est envoyé par le bot youtube
 
-        var content_message = message.content.split(/ +/g)
+        var content_message = await message.content.split(/ +/g)
 
-        var user_new_content = content_message[0];
+        var user_new_content = await content_message[0];
         console.log(`User new content = '${user_new_content}'`)
 
-        message.channel.fetchMessages({ limit: 100, before: message.id })
-            .then(msgs => {
-                msgs.forEach(msg => {
+        await message.channel.fetchMessages({ limit: 100, before: message.id })
+            .then(async msgs => {
+                await msgs.forEach(async msg => {
                     if (msg.content.includes(user_new_content)) {
                         console.log("Detected");
                         //if(msg.id == message.id) return;
-                        if (msg.deletable) msg.delete()
+                        if (msg.deletable) await msg.delete()
                     } else {
                         log("Not detected")
                     }
                 })
             })
-            .catch(err => {
-                console.log(`Error sur le partenaires message`)
-                log(err)
+            .catch(async err => {
+                await console.log(`Error sur le partenaires message`)
+                await log(err)
             })
 
     }
 
     if (message.content.startsWith(prefix) && !message.author.bot) {
-        //#region Permission Du Bot
-        bot.BOT_SEND_MESSAGESPerm = message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("SEND_MESSAGES") && message.channel.type === 'text'
-        bot.BOT_MANAGE_MESSAGESPerm = message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("MANAGE_MESSAGES") && message.channel.type === 'text'
-        bot.BOT_ADMINISTRATORPerm = message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADMINISTRATOR") && message.channel.type === 'text'
-        bot.BOT_USE_EXTERNAL_EMOJISPerm = message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("USE_EXTERNAL_EMOJIS") && message.channel.type === 'text'
-        bot.BOT_ADD_REACTIONSPerm = message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADD_REACTIONS") && message.channel.type === 'text'
-        //#endregion
+        try {
+            //#region Permission Du Bot
+            bot.BOT_SEND_MESSAGESPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("SEND_MESSAGES") && message.channel.type === 'text'
+            bot.BOT_MANAGE_MESSAGESPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("MANAGE_MESSAGES") && message.channel.type === 'text'
+            bot.BOT_ADMINISTRATORPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADMINISTRATOR") && message.channel.type === 'text'
+            bot.BOT_USE_EXTERNAL_EMOJISPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("USE_EXTERNAL_EMOJIS") && message.channel.type === 'text'
+            bot.BOT_ADD_REACTIONSPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADD_REACTIONS") && message.channel.type === 'text'
+            //#endregion
 
-        //#region Permission de la personne
-        bot.member_Has_BAN_MEMBERS = message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("BAN_MEMBERS") && message.channel.type === 'text'
-        bot.member_Has_KICK_MEMBERS = message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("KICK_MEMBERS") && message.channel.type === 'text'
-        bot.member_Has_MANAGE_GUILD = message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_GUILD") && message.channel.type === 'text'
-        bot.member_has_MANAGE_MESSAGES = message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_MESSAGES") && message.channel.type === 'text'
-        //#endregion
+            //#region Permission de la personne
+            bot.member_Has_BAN_MEMBERS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("BAN_MEMBERS") && message.channel.type === 'text'
+            bot.member_Has_KICK_MEMBERS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("KICK_MEMBERS") && message.channel.type === 'text'
+            bot.member_Has_MANAGE_GUILD = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_GUILD") && message.channel.type === 'text'
+            bot.member_has_MANAGE_MESSAGES = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_MESSAGES") && message.channel.type === 'text'
+            //#endregion
 
-        /*
-        console.log(1);
-        console.log(`'${prefix}'`);
-        console.log(bot.commands);
-        console.log(`args`);
-        console.log(args);
+            /*
+            console.log(1);
+            console.log(`'${prefix}'`);
+            console.log(bot.commands);
+            console.log(`args`);
+            console.log(args);
+    
+            console.log(`cmd => '${cmd}'`);
+            console.log(`cmd.length => '${cmd.length}'`);
+            console.log(`content => '${content}'`);
+            */
 
-        console.log(`cmd => '${cmd}'`);
-        console.log(`cmd.length => '${cmd.length}'`);
-        console.log(`content => '${content}'`);
-        */
-
-        const commandFile = bot.commands.find((command) => (command.help.aliases || []).concat([command.help.name]).includes(cmd));
-        if (commandFile != null) {
-            //console.log(2);
-            if (message.channel.type !== "dm" || (commandFile.help.dm || false)) {
-                //console.log(3);
-                commandFile.run(new Call(message, bot, bot.commands, args, content, prefix, cmd));
-            } else message.reply("Cette commande ne fonctionne pas en message privé").catch(() => { });
+            const commandFile = bot.commands.find((command) => (command.help.aliases || []).concat([command.help.name]).includes(cmd));
+            if (commandFile != null) {
+                //console.log(2);
+                if (message.channel.type !== "dm" || (commandFile.help.dm || false)) {
+                    //console.log(3);
+                    commandFile.run(new Call(message, bot, bot.commands, args, content, prefix, cmd));
+                } else message.reply("Cette commande ne fonctionne pas en message privé").catch(() => { });
+            }
+        } catch (error) {
+            console.log("Erreur bot :286")
+            console.error(error)
         }
     }
 });
 
 bot.on("error", err => {
-    console.log(err);
+    console.error(err)
 })
 
-bot.on("voiceStateUpdate", (old, now) => {
+bot.on("voiceStateUpdate", async (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
     var voice_create_voice_name = "créer votre salon privé"
+    var voice_create_voice_name_autres_jeux = "autres jeux"
 
+    //Salons normaux
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
         //Si le mec vient de join un vocal
         try {
@@ -337,23 +353,34 @@ bot.on("voiceStateUpdate", (old, now) => {
             log(`1- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                    now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(c => {
-
-                        c.setParent(now.voiceChannel.parent).then(() => {
-                            now.setVoiceChannel(c).then(() => {
-                                setTimeout(() => {
-                                    c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
+                        //log(now.voiceChannel.parent.name)
+                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League"))
+                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft"))
+                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone"))
+                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                 })
                             }, 1000);
                         })
+                        //})
                     })
                 } else {
-                    now.setVoiceChannel(channel).then(m => {
-                        setTimeout(() => {
-                            channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                         })
                     }, 1000);
                 }
@@ -366,6 +393,45 @@ bot.on("voiceStateUpdate", (old, now) => {
 
     }
 
+    //Salon "autres jeux"
+    if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+        //Si le mec vient de join un vocal
+        try {
+
+            log(`1- Detected the join of ${now.user.tag}`)
+            if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+                //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
+                        })
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
+
+
+            }
+        } catch (error) {
+            log(error)
+        }
+
+    }
+
+    //Salons normaux
     if (old.voiceChannel && now.voiceChannel) {
 
         try {
@@ -383,23 +449,32 @@ bot.on("voiceStateUpdate", (old, now) => {
                     })
                 })
                 */
-                var channel = now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                    now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(c => {
-
-                        c.setParent(now.voiceChannel.parent).then(() => {
-                            now.setVoiceChannel(c).then(() => {
-                                setTimeout(() => {
-                                    c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
+                        //log(now.voiceChannel.parent.name)
+                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League"))
+                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft"))
+                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone"))
+                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        await c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                 })
                             }, 1000);
                         })
                     })
                 } else {
-                    now.setVoiceChannel(channel).then(() => {
-                        setTimeout(() => {
-                            channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                    await now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                         })
                     }, 1000);
                 }
@@ -410,22 +485,59 @@ bot.on("voiceStateUpdate", (old, now) => {
 
     }
 
+    //Salon "autres jeux"
+    if (old.voiceChannel && now.voiceChannel) {
+
+        try {
+            if (!now.voiceChannel.name == voice_create_voice_name_autres_jeux) return;
+            log(`2 - Detected the join of ${now.user.tag}`)
+            if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
+                        })
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
+
+
+            }
+        } catch (error) {
+            log(error)
+        }
+
+    }
+
     if (!old.serverMute && now.serverMute) {
         if (old.voiceChannel.name == now.voiceChannel.name) {
             if (now.voiceChannel.name.includes("[PV]")) {
-                now.setMute(false)
-                now.setDeaf(false)
+                await now.setMute(false)
+                await now.setDeaf(false)
 
-                now.setVoiceChannel(voice_move_user)
+                await now.setVoiceChannel(voice_move_user)
             }
         }
     } else if (!old.serverDeaf && now.serverDeaf) {
         if (old.voiceChannel.name == now.voiceChannel.name) {
             if (now.voiceChannel.name.includes("[PV]")) {
-                now.setMute(false)
-                now.setDeaf(false)
-                now.voiceChannel.overwritePermissions(now, { CONNECT: false }).then(() => {
-                    now.setVoiceChannel(voice_move_user)
+                await now.setMute(false)
+                await now.setDeaf(false)
+                await now.voiceChannel.overwritePermissions(now, { CONNECT: false }).then(async () => {
+                    await now.setVoiceChannel(voice_move_user)
                 })
             }
         }
@@ -437,26 +549,26 @@ bot.login(bot.config.BOT_TOKEN)
 
 
 //#region Functions
-function ChangeState1() {
+async function ChangeState1() {
     //bot.user.setActivity(`${bot.config.prefix} help | Watching u ( ͡° ͜ʖ ͡°)`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
-    bot.user.setActivity(`${bot.config.prefix} help | Pour la liste des commandes.`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
-    setTimeout(() => {
-        ChangeState2()
+    await bot.user.setActivity(`${bot.config.prefix} help | Pour la liste des commandes.`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
+    setTimeout(async () => {
+        await ChangeState2()
     }, ms("60s"));
 }
 
-function ChangeState2() {
-    bot.user.setActivity(`${bot.config.prefix} help | Giving u some force (づ◕_◕)づ`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
-    setTimeout(() => {
-        ChangeState1()
+async function ChangeState2() {
+    await bot.user.setActivity(`${bot.config.prefix} help | Giving u some force (づ◕_◕)づ`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
+    setTimeout(async () => {
+        await ChangeState1()
     }, ms("60s"));
 }
 
-function channel_loop_verification() {
+async function channel_loop_verification() {
     console.log("Channel Loop Verification");
 
-    bot.guilds.forEach(g => {
-        g.channels.forEach(c => {
+    await bot.guilds.forEach(async g => {
+        await g.channels.forEach(async c => {
             if (!c.type == "voice") return;
             if (c.name.includes("[PV]")) {
                 if (c.members.size == 0) {

@@ -7,8 +7,9 @@ module.exports = {
         var Mess_Member = call.message.member
             , pfx = call.prefix
 
-            call.message.react("✅")
 
+        //#region Truc moche en bas mdr
+        /*
         var help_msgToSend_cmds = (
             "\n" +
             "```md\n" +
@@ -22,7 +23,23 @@ module.exports = {
             "```")
 
         call.bot.sendDMToUser(call.message, help_msgToSend_cmds)
+        //#endregion
+        */
 
-        return call.message.react("✅")
+        call.message.react("✅")
+
+        var help_embed = new Discord.RichEmbed()
+            .setColor("GREEN")
+            .setDescription(
+                `*Voici les différentes commandes du KLIM BOT.*\n\n` +
+                `:small_orange_diamond: **${pfx} helps** :arrow_right: Les différentes commandes du KLIM Bot.\n` +
+                //`:small_orange_diamond: **${pfx} rules** :arrow_right: Le règlement du Discord de KLIM.\n` +
+                `:small_orange_diamond: **${pfx} roles** :arrow_right: Les différents rôles de la KLIM Community.\n` +
+                `:small_orange_diamond: **${pfx} salons** :arrow_right: Comment créer son propre salon privé ?\n` +
+                `:small_orange_diamond: **${pfx} liens** :arrow_right: Les différents liens de la KLIM.`
+            )
+
+        return call.message.author.createDM().then(async c => await c.send(help_embed))
+        //return call.message.channel.send(help_embed)
     }
 }

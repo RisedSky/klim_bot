@@ -51,9 +51,10 @@ module.exports = {
             }
         }
 
+
         const category_name = String(message.channel.parent.name).toLowerCase() //Toujours en lowercase
-        let serv = "453464806062817281"
         let logs_channel = "495968450095742976"
+        let serv = "453464806062817281"
 
         let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
 

@@ -3,10 +3,15 @@ module.exports = {
     run: async (call) => {
         //message, bot, bot.commands, args, content, prefix, cmd
 
-        call.message.react("✅")
+        await call.message.react("✅")
 
-        call.message.author.createDM().then(c => {
-            c.send("Comment créer votre propre salon privé ?\n\nRien de plus simple ! Rejoignez le salon \"créer votre salon privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n*A savoir que votre salon privé sera supprimé dans un délai de 5 minutes si aucune personne y est présente.*")
+        await call.message.author.createDM().then(async c => {
+            await c.send(
+                "Comment créer votre propre salon privé ?\n\nRien de plus simple !\n" +
+                "Rejoignez le salon \"créer votre salon privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n" +
+                `:information_source: Notez que vous allez avoir la permission de kicker ou bannir les personnes **de votre salon**.\n\n**Voici quelques points sur ces permissions**: \nLorsque vous mutez quelqu'un avec le "Serveur muet" ("Server Mute"), le bot va détecter ce mute et va alors kicker la personne **de votre salon**.\nSi cette personne en question revient dans votre salon, mutez le avec le "Serveur sourd" ("Server Deafen"), il sera alors "banni" de votre salon **jusqu'à sa suppression**.\n\n` +
+                "*A savoir que votre salon privé sera supprimé dans un délai de 5 minutes si aucune personne y est présente.*\n\n"
+            )
         })
     }
 }
