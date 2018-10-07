@@ -1,5 +1,5 @@
 module.exports = {
-    help: { name: "modohelp", aliases: ["modhelp", "ModoHelp", "ModHelp"] },
+    help: { name: "modohelp", aliases: ["modhelp", "ModoHelp", "ModHelp", "modohelps", "modhelps"] },
     run: async (call) => {
         //message, bot, bot.commands, args, content, prefix, cmd
         var Mess_Member = call.message.member

@@ -375,6 +375,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, {VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true})
                         c.setParent(now.voiceChannel.parent).then(async () => {
                             await now.setVoiceChannel(c).then(async () => {
                                 setTimeout(async () => {
@@ -471,6 +472,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, {VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true})
                         c.setParent(now.voiceChannel.parent).then(async () => {
                             await now.setVoiceChannel(c).then(async () => {
                                 setTimeout(async () => {
