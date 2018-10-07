@@ -381,8 +381,9 @@ bot.on("message", async (message) => {
         */
     }
 
+    //demande-de-droits
     if(message.channel.id == "453483219770277888"){
-        await message.delete(5000)
+        await message.delete(500)
     }
 });
 
