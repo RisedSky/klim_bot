@@ -27,7 +27,7 @@ module.exports = {
         }
         
         setTimeout(async () => {
-            await message.delete()
-        }, 5000);
+            await call.message.delete()
+        }, 2500);
     }
 }

@@ -29,9 +29,9 @@ module.exports = {
             .setColor("RED");
 
         setTimeout(async () => {
-            await message.delete()
+            await call.message.delete()
         }, 2500);
-        
+
         await call.message.author.createDM().then(async c => { await c.send(embed) })
     }
 }

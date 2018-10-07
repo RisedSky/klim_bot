@@ -26,7 +26,7 @@ module.exports = {
             let salon_id = message.guild.channels.find("id", call.args[1].substr("2", "18"))
             if (!salon_id) return message.reply("Le salon donné ne menne vers nul part...").then(async m => await call.bot.deleteUserMessage(m, 5000))
 
-            message.channel.fetchMessages({limit: 100})
+            message.channel.fetchMessages({ limit: 100 })
                 .then(messages => {
                     //console.log(`${messages.filter(m => m.id === call.args[0]).size} messages`)
                     message_id = messages.first()
@@ -39,7 +39,7 @@ module.exports = {
                         .setDescription(message_id.content)
                         .setFooter(`Message déplacé par ${call.message.member.user.tag}`)
                     salon_id.send(mess_send)
-                    if(message_id.deletable) message_id.delete()
+                    if (message_id.deletable) message_id.delete()
 
                 })
                 .catch(console.error);
@@ -47,7 +47,7 @@ module.exports = {
         }
 
         setTimeout(async () => {
-            await message.delete()
+            await call.message.delete()
         }, 2500);
     }
 }

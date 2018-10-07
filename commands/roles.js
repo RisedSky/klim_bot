@@ -18,7 +18,7 @@ module.exports = {
         await call.message.channel.send(embed)
 
         setTimeout(async () => {
-            await message.delete()
+            await call.message.delete()
         }, 2500);
 
     }

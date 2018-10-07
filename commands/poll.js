@@ -13,6 +13,9 @@ module.exports = {
         }
 
         var cont = call.message.content
+        setTimeout(async () => {
+            await call.message.delete()
+        }, 2500);
         //console.log(cont);
 
         b1 = cont.indexOf(" | ");

@@ -41,9 +41,9 @@ module.exports = {
             )
 
         setTimeout(async () => {
-            await message.delete()
+            await call.message.delete()
         }, 2500);
-        
+
         return call.message.author.createDM().then(async c => await c.send(help_embed))
         //return call.message.channel.send(help_embed)
     }

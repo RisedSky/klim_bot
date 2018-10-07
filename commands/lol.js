@@ -10,10 +10,8 @@ module.exports = {
         if (!role) return await msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
 
         await call.message.react("✅")
-        setTimeout(async () => {
-            await message.delete()
-        }, 5000);
         
+
         if (!usr.roles.exists("name", role_name)) {
 
             await usr.addRole(role).then(async () => {
@@ -29,5 +27,8 @@ module.exports = {
             })
         }
         
+        setTimeout(async () => {
+            await msg.delete()
+        }, 5000);
     }
 }

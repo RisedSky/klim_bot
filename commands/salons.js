@@ -34,7 +34,7 @@ module.exports = {
         await call.message.author.createDM().then(async c => { c.send(embed_salons) })
 
         setTimeout(async () => {
-            await message.delete()
+            await call.message.delete()
         }, 2500);
     }
 }
