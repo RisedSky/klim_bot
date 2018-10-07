@@ -7,6 +7,7 @@ module.exports = {
         const Discord = require("discord.js");
 
         await call.message.react("✅")
+        await call.message.delete()
 
         var embed = new Discord.RichEmbed()
             .setAuthor(`Voici les différentes commandes pour les modérateurs/modératrices.`, call.bot.user.avatarURL)

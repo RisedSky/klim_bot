@@ -25,5 +25,9 @@ module.exports = {
                 await usr.createDM().then(async c => await c.send(`✅ Rôle \`${role_name}\` supprimé.`))
             })
         }
+        
+        setTimeout(async () => {
+            await message.delete()
+        }, 5000);
     }
 }
