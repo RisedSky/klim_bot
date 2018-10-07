@@ -356,7 +356,8 @@ bot.on("message", async (message) => {
 
     //salon mon-setup-klim //364683334644793345
     //salons #screenshots
-    if (message.channel.id == "364683334644793345" || message.channel.name == "vos-screenshots") {
+    //salon demande-de-droits
+    if (message.channel.id == "364683334644793345" || message.channel.name == "vos-screenshots" || message.channel.id == "453483219770277888") {
         var regex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/)
         //if(message.attachments.size < 0 || !message.content.match(regex)) return await message.delete()
 
