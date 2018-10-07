@@ -30,13 +30,13 @@ module.exports = {
 
         var help_embed = new Discord.RichEmbed()
             .setColor("GREEN")
-            .setAuthor("Voici les différentes commandes du KLIM BOT", call.bot.user.avatarURL)
-            .setDescription(
+            .setAuthor("Voici les différentes commandes.", call.bot.user.avatarURL)
+            .setDescription(`${call.bot.invisible_emote}\n`+
                 //`*Voici les différentes commandes du KLIM BOT.*\n\n` +
-                `:small_orange_diamond: **${pfx} helps** :arrow_right: Les différentes commandes du KLIM Bot.\n` +
-                //`:small_orange_diamond: **${pfx} rules** :arrow_right: Le règlement du Discord de KLIM.\n` +
-                `:small_orange_diamond: **${pfx} roles** :arrow_right: Les différents rôles de la KLIM Community.\n` +
-                `:small_orange_diamond: **${pfx} salons** :arrow_right: Comment créer son propre salon privé ?\n` +
+                `:small_orange_diamond: **${pfx} helps** :arrow_right: Les différentes commandes du KLIM Bot.\n\n` +
+                //`:small_orange_diamond: **${pfx} rules** :arrow_right: Le règlement du Discord de KLIM.\n\n` +
+                `:small_orange_diamond: **${pfx} roles** :arrow_right: Les différents rôles de la KLIM Community.\n\n` +
+                `:small_orange_diamond: **${pfx} salons** :arrow_right: Comment créer son propre salon privé ?\n\n` +
                 `:small_orange_diamond: **${pfx} liens** :arrow_right: Les différents liens de la KLIM.`
             )
 

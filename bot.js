@@ -109,7 +109,7 @@ bot.on("guildMemberRemove", async member => {
         var kick = await logs.entries.first()
         if (kick.target.id != member.id) {
             var salon = "498236604981182475"
-            bot.guilds.find("id", serv).channels.find("id", salon).send(`${member.user.tag} vient de quitter le discord`)
+            bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag} :arrow_right: vient de quitter le discord`)
             return log("Juste un leave");
         }
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
@@ -128,6 +128,12 @@ bot.on("guildMemberRemove", async member => {
 
 bot.on("messageDelete", async message => {
     //log("message deleted !")
+    await message.guild.fetchAuditLogs({ type: "MESSAGE_DELETE", limit: 1 })
+        .then(async logs => {
+            var mess_delete = await logs.entries.first()
+            if (mess_delete.executor.bot) return;
+        })
+
     let serv = "453464806062817281"
     let delete_embed = new Discord.RichEmbed()
         .setColor("#FFFF00") //yellow
@@ -142,7 +148,7 @@ bot.on("messageDelete", async message => {
 bot.on("guildBanRemove", async (guild, member) => {
     let serv = "453464806062817281"
 
-    guild.fetchAuditLogs({ type: 22, limit: 1 }).then(async logs => {
+    await guild.fetchAuditLogs({ type: 22, limit: 1 }).then(async logs => {
         var unban = await logs.entries.first()
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
         if (No_Show.includes(unban.executor.id)) return log("Don't show !");
@@ -186,8 +192,16 @@ bot.on("guildMemberAdd", async member => {
     let embed_welcome = new Discord.RichEmbed()
         .setColor("GREEN")
         .setAuthor(`Bienvenue sur le serveur discord KLIM !`, bot.avatarURL)
-        .setDescription(`Avant toute chose merci de lire ce message, puis ensuite d'aller lire le <#364687962916651010> !`)
-        .addField(`${bot.invisible_emote}\nLes salons vocaux privés de KLIM.`, `:small_blue_diamond: Vous avez accès à des salons privés sur notre serveur discord.\nAvec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM !\n\n:small_blue_diamond: Cliquez sur le salon "créer votre salon privé" dans la section de jeu de votre choix.\n\nUne fois cela fait, vous allez avoir la permission de muter les personnes **dans votre salon**.\n\n**Voici quelques points sur ces permissions**\nLorsque vous mutez quelqu'un avec le "Server Mute", le bot va détecter ce mute et va alors kicker la personne **de votre salon**\nSi cette personne en question revient dans votre salon, mutez le avec le "Server Deafen", il sera alors "banni" de votre salon **jusqu'à sa suppression**.`)
+        .setDescription(`Avant toute chose merci de lire ce message, puis ensuite d'aller lire le <#364687962916651010>\n${bot.invisible_emote}`)
+        .addField(`Pour accéder à vos salons favoris.`, `:small_orange_diamond: Faites la commande : **${bot.config.prefix} roles** dans le salon <#453483219770277888> cela va vous permettre d'accéder à vos différentes sections de jeux.`)
+        .addField(`${bot.invisible_emote}\nLes salons vocaux privés de KLIM.`, `:small_orange_diamond: Vous avez accès à des salons privés sur notre serveur discord.\n` +
+            `Avec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM!\n\n` +
+            ":small_orange_diamond: Rejoignez le salon \"créer votre salon privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n" +
+            `:information_source: Notez que vous allez avoir la permission de kicker ou bannir les personnes ** de votre salon **.\n\n` +
+            `**Voici quelques points sur ces permissions **: \n` +
+            `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le "Serveur muet" ("Server Mute"), le bot va détecter ce mute et va alors kicker la personne **de votre salon**.\n ` +
+            `:small_orange_diamond: Si cette personne en question revient dans votre salon, mutez le avec le "Serveur sourd" ("Server Deafen"), il sera alors "banni" de votre salon **jusqu'à sa suppression**.\n\n` +
+            "*A savoir que votre salon privé sera supprimé dans un délai de 05 minutes si aucune personne n'y est présente.*")
     //.addBlankField()
     usr.createDM()
         .then(async c => {
@@ -197,6 +211,10 @@ bot.on("guildMemberAdd", async member => {
             await console.log(`Impossible de DM ${usr.tag}`);
             await console.log(e)
         })
+
+    var salon = "498236604981182475"
+    bot.guilds.find("id", serv).channels.find("id", salon).send(`:inbox_tray: ${member.user.tag} :arrow_right: vient de rejoindre le discord`)
+
 })
 
 bot.commands = new Discord.Collection();
@@ -357,17 +375,6 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                        //c.setParent(now.voiceChannel.parent).then(() => {
-                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
-                        //log(now.voiceChannel.parent.name)
-                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
-                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League"))
-                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA"))
-                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft"))
-                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone"))
-                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
                         c.setParent(now.voiceChannel.parent).then(async () => {
                             await now.setVoiceChannel(c).then(async () => {
                                 setTimeout(async () => {
@@ -375,6 +382,17 @@ bot.on("voiceStateUpdate", async (old, now) => {
                                 })
                             }, 1000);
                         })
+                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
+                        //log(now.voiceChannel.parent.name)
+                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League", { VIEW_CHANNEL: true }))
+                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA", { VIEW_CHANNEL: true }))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft", { VIEW_CHANNEL: true }))
+                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone", { VIEW_CHANNEL: true }))
+                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+
                         //})
                     })
                 } else {
@@ -453,23 +471,25 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
-                        //log(now.voiceChannel.parent.name)
-                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
-                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League"))
-                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA"))
-                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft"))
-                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone"))
-                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
-                        await c.setParent(now.voiceChannel.parent).then(async () => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
                             await now.setVoiceChannel(c).then(async () => {
                                 setTimeout(async () => {
                                     await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                 })
                             }, 1000);
                         })
+                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
+                        //log(now.voiceChannel.parent.name)
+                        //log(now.guild.roles.find("name", now.voiceChannel.parent.name))
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "Rocket League", { VIEW_CHANNEL: true }))
+                            await c.overwritePermissions(now.guild.roles.find("name", "FIFA", { VIEW_CHANNEL: true }))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft", { VIEW_CHANNEL: true }))
+                            await c.overwritePermissions(now.guild.roles.find("name", "HearthStone", { VIEW_CHANNEL: true }))
+                        } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+
+                        //})
                     })
                 } else {
                     await now.setVoiceChannel(channel).then(async () => {
@@ -586,14 +606,14 @@ function loop_verification() {
     /*
     bot.guilds.forEach(g => {
         if (g.id == bot.Klim_Server) {
-
+ 
             var memb_arr = g.members.array()
             console.log(`Verifying ${memb_arr.length} members`);
             memb_arr.forEach(user => {
                 //if (!user.roles.exists("id", bot.Partenaires_Role)) return;
                 if (user.user.bot) return;
                 //console.log(user.user.username);
-
+ 
                 if (!user.presence.game) {
                     if (user.roles.exists("id", bot.Streamer_Role)) {
                         console.log(`Removed the role streamer to ${user.user.tag} bcs not playing`)
@@ -601,7 +621,7 @@ function loop_verification() {
                     }
                     return;
                 }
-
+ 
                 if (!user.presence.game.streaming) {
                     if (user.roles.exists("id", bot.Streamer_Role)) {
                         user.removeRole(bot.Streamer_Role);
@@ -609,16 +629,16 @@ function loop_verification() {
                         return
                     }
                 }
-
+ 
                 if (user.presence.game.streaming) {
                     let userURL = user.presence.game.url.split("/")[3]
-
+ 
                     twitch.getUser(userURL)
                         .then(async data => {
                             console.log(data);
-
+ 
                             //console.log(data);
-
+ 
                             //console.log(data.stream.game);
                             //if (!data.stream.streaming) {
                             //    if (user.roles.exists("id", bot.Streamer_Role)) {
@@ -630,26 +650,26 @@ function loop_verification() {
                             //}
                             if (!user.roles.exists("id", bot.Streamer_Role)) {
                                 user.addRole(bot.Streamer_Role)
-
+ 
                                 var embed_msg = new Discord.RichEmbed()
                                     .setAuthor(bot.user.username, bot.user.avatarURL)
                                     //.setURL(user.presence.game.url)
-
+ 
                                     .setColor("GREEN")
                                     .setDescription(`${GetUserMention(user.id)} vient de lancer un stream sur le jeu ${""}`)
-
-
+ 
+ 
                                     .addField("Lien du stream", user.presence.game.url)
                                     //.setThumbnail(data.stream.preview.small)
                                     .setImage(data.stream.preview.large)
                                     .setTimestamp();
-
+ 
                                 var salon = user.guild.channels.find("id", partage_media_id)
-
+ 
                                 if (send_new_stream) salon.send(embed_msg)
-
+ 
                                 console.log(`Don du rôle à '${user.user.tag}'`);
-
+ 
                                 
                                 //} else if (data.stream.game != "Darwin Project" && user.roles.exists("id", bot.Streamer_Role)) {
                                 //        user.removeRole(bot.Streamer_Role)

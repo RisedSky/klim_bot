@@ -25,7 +25,8 @@ module.exports = {
             .setDescription(
                 ":small_orange_diamond: Rejoignez le salon \"créer votre salon privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n" +
                 `:information_source: Notez que vous allez avoir la permission de kicker ou bannir les personnes **de votre salon**.\n\n ` +
-                `**Voici quelques points sur ces permissions**: \n:small_orange_diamond: Lorsque vous mutez quelqu'un avec le "Serveur muet" ("Server Mute"), le bot va détecter ce mute et va alors kicker la personne **de votre salon**.\n ` +
+                `**Voici quelques points sur ces permissions**: \n` +
+                `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le "Serveur muet" ("Server Mute"), le bot va détecter ce mute et va alors kicker la personne **de votre salon**.\n ` +
                 `:small_orange_diamond: Si cette personne en question revient dans votre salon, mutez le avec le "Serveur sourd" ("Server Deafen"), il sera alors "banni" de votre salon **jusqu'à sa suppression**.\n\n` +
                 "*A savoir que votre salon privé sera supprimé dans un délai de 5 minutes si aucune personne n'y est présente.*"
             )

@@ -14,7 +14,7 @@ module.exports = {
                 `\n\n\nSites officiels de KLIM eSports.\n\n[Site Web](http://klimesports.com/)   |   [Twitter](https://twitter.com/KLIMeSports)   |   [YouTube](https://www.youtube.com/channel/UC2yBhvwEygvP9DwIKK-3R-A)   |   [Steam](https://steamcommunity.com/groups/KLIMTechs)`)
 
 
-            .setColor("BLUE");
+            .setColor("GREEN");
 
 
         await call.message.author.createDM().then(async c => { await c.send(embed) })
