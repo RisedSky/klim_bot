@@ -84,6 +84,7 @@ bot.once('ready', () => {
     }, ms("5m"))
 })
 
+/*
 bot.on("messageUpdate", async (oldmsg, newmsg) => {
     var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
     if (oldmsg.member === null) return;
@@ -100,6 +101,7 @@ bot.on("messageUpdate", async (oldmsg, newmsg) => {
         await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(update_embed)
     }
 })
+*/
 
 bot.on("guildMemberRemove", async member => {
     if (!member.bannable) return log("Banni donc pas besoin de mettre la notif de kick")
@@ -126,6 +128,7 @@ bot.on("guildMemberRemove", async member => {
     })
 })
 
+/*
 bot.on("messageDelete", async message => {
     try {
         //log("message deleted !")
@@ -150,6 +153,7 @@ bot.on("messageDelete", async message => {
         console.error(error)
     }
 })
+*/
 
 bot.on("guildBanRemove", async (guild, member) => {
     let serv = "453464806062817281"
@@ -592,23 +596,38 @@ bot.on("voiceStateUpdate", async (old, now) => {
 
     }
 
+
     if (!old.serverMute && now.serverMute) {
+        var embed_kick_private = new Discord.RichEmbed()
+            .setColor("RED")
+            .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
+
+
         if (old.voiceChannel.name == now.voiceChannel.name) {
             if (now.voiceChannel.name.includes("[PV]")) {
                 await now.setMute(false)
                 await now.setDeaf(false)
 
-                await now.setVoiceChannel(voice_move_user)
+                var salon = now.voiceChannel.parent.children.find(c => { c.name == "créer votre salon privé" })
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == "autres jeux" })
+                await now.user.createDM().then(async c => await c.send(embed_kick_private))
+                await now.setVoiceChannel(salon)
             }
         }
     } else if (!old.serverDeaf && now.serverDeaf) {
+        var embed_kick_private = new Discord.RichEmbed()
+            .setColor("RED")
+            .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
+
         if (old.voiceChannel.name == now.voiceChannel.name) {
             if (now.voiceChannel.name.includes("[PV]")) {
                 await now.setMute(false)
                 await now.setDeaf(false)
-                await now.voiceChannel.overwritePermissions(now, { CONNECT: false }).then(async () => {
-                    await now.setVoiceChannel(voice_move_user)
-                })
+
+                var salon = now.voiceChannel.parent.children.find(c => { c.name == "créer votre salon privé" })
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == "autres jeux" })
+                await now.user.createDM().then(async c => await c.send(embed_kick_private))
+                await now.setVoiceChannel(salon)
             }
         }
     }
