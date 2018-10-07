@@ -18,7 +18,7 @@ module.exports = {
             await usr.addRole(role).then(async () => {
                 //msg.channel.send(`✅ Rôle \`${role_name}\` ajouté.`)
                 await usr.createDM().then(async c => await c.send(`✅ Rôle \`${role_name}\` ajouté.`))
-                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**{user} ** s'est donné le rôle :arrow_right: **${call.bot.config.prefix} ${role_name}**`)
+                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est donné le rôle :arrow_right: **${role_name}**`)
             })
 
         } else {
@@ -26,7 +26,7 @@ module.exports = {
             await usr.removeRole(role).then(async () => {
                 //msg.channel.send(`✅ Rôle \`${role_name}\` supprimé.`)
                 await usr.createDM().then(async c => await c.send(`✅ Rôle \`${role_name}\` supprimé.`))
-                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**{user} ** s'est enlevé le rôle :arrow_right: **${call.bot.config.prefix} ${role_name}**`)
+                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${role_name}**`)
             })
         }
         
