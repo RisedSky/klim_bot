@@ -7,7 +7,6 @@ module.exports = {
         const Discord = require("discord.js");
 
         await call.message.react("✅")
-        await call.message.delete()
 
         var embed = new Discord.RichEmbed()
             .setAuthor(`Voici les différentes commandes pour les modérateurs/modératrices.`, call.bot.user.avatarURL)
@@ -30,7 +29,7 @@ module.exports = {
 
         setTimeout(async () => {
             await call.message.delete()
-        }, 2500);
+        }, 10000);
 
         await call.message.author.createDM().then(async c => { await c.send(embed) })
     }
