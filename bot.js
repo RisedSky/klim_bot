@@ -353,7 +353,7 @@ bot.on("message", async (message) => {
             console.error(error)
         }
     }
-    
+
     //salon mon-setup-klim //364683334644793345
     //salons #screenshots
     if (message.channel.id == "364683334644793345" || message.channel.name == "vos-screenshots") {
@@ -361,7 +361,7 @@ bot.on("message", async (message) => {
         //if(message.attachments.size < 0 || !message.content.match(regex)) return await message.delete()
 
         if (!message.attachments.size > 0) {
-            log("1")
+            //log("1")
             await message.delete()
         } else {
             return;

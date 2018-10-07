@@ -31,7 +31,7 @@ module.exports = {
         var help_embed = new Discord.RichEmbed()
             .setColor("GREEN")
             .setAuthor("Voici les différentes commandes.", call.bot.user.avatarURL)
-            .setDescription(`${call.bot.invisible_emote}\n`+
+            .setDescription(`${call.bot.invisible_emote}\n` +
                 //`*Voici les différentes commandes du KLIM BOT.*\n\n` +
                 `:small_orange_diamond: **${pfx} helps** :arrow_right: Les différentes commandes du KLIM Bot.\n\n` +
                 //`:small_orange_diamond: **${pfx} rules** :arrow_right: Le règlement du Discord de KLIM.\n\n` +
@@ -40,6 +40,10 @@ module.exports = {
                 `:small_orange_diamond: **${pfx} liens** :arrow_right: Les différents liens de la KLIM.`
             )
 
+        setTimeout(async () => {
+            await message.delete()
+        }, 2500);
+        
         return call.message.author.createDM().then(async c => await c.send(help_embed))
         //return call.message.channel.send(help_embed)
     }

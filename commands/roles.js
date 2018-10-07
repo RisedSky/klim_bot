@@ -4,6 +4,8 @@ module.exports = {
         var Discord = require("discord.js")
             , pfx = call.bot.config.prefix;
 
+        if (!admin_id.includes(call.message.member.id)) return message.delete()
+
         await call.message.react("✅")
 
         var embed = new Discord.RichEmbed()
@@ -14,6 +16,10 @@ module.exports = {
 
             .setColor("GREEN")
         await call.message.channel.send(embed)
+
+        setTimeout(async () => {
+            await message.delete()
+        }, 2500);
 
     }
 }

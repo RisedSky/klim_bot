@@ -18,5 +18,9 @@ module.exports = {
 
 
         await call.message.author.createDM().then(async c => { await c.send(embed) })
+
+        setTimeout(async () => {
+            await message.delete()
+        }, 2500);
     }
 }

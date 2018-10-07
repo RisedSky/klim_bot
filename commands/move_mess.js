@@ -45,5 +45,9 @@ module.exports = {
                 .catch(console.error);
 
         }
+
+        setTimeout(async () => {
+            await message.delete()
+        }, 2500);
     }
 }

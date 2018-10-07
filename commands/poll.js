@@ -6,7 +6,7 @@ module.exports = {
         var Mess_Member = call.message.member;
 
         if (!call.bot.admin_id.includes(call.message.author.id)) {
-            call.message.reply("Vous n'avez la permission pour faire cela.")
+            call.message.reply("Vous n'avez la permission de faire cela.")
                 .then(msg => {
                     call.bot.deleteUserMessage(msg, 8000)
                 })
