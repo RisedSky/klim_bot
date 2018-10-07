@@ -127,21 +127,27 @@ bot.on("guildMemberRemove", async member => {
 })
 
 bot.on("messageDelete", async message => {
-    //log("message deleted !")
-    await message.guild.fetchAuditLogs({ type: "MESSAGE_DELETE", limit: 1 })
-        .then(async logs => {
-            var mess_delete = await logs.entries.first()
-            if (mess_delete.executor.bot) return;
-        })
+    try {
+        //log("message deleted !")
+        await message.guild.fetchAuditLogs({ type: "MESSAGE_DELETE", limit: 1 })
+            .then(async logs => {
+                var mess_delete = await logs.entries.first()
+                if (mess_delete.executor.bot) return;
+            })
 
-    let serv = "453464806062817281"
-    let delete_embed = new Discord.RichEmbed()
-        .setColor("#FFFF00") //yellow
-        //.setAuthor("Un message a été supprimé manuellement ")
-        .setDescription(`Le message de ${message.member.user.tag} a été supprimé dans le salon : <#${message.channel.id}>\n\nSon contenu était :\n\`\`\`${message.content}\`\`\``)
+        let serv = "453464806062817281"
+        let delete_embed = new Discord.RichEmbed()
+            .setColor("#FFFF00") //yellow
+            //.setAuthor("Un message a été supprimé manuellement ")
+            .setDescription(`Le message de ${message.member.user.tag} a été supprimé dans le salon : <#${message.channel.id}>\n\nSon contenu était :\n\`\`\`${message.content}\`\`\``)
 
-    if (message.member.roles.find("id", bot.Moderateur_Role) || message.member.roles.find("id", bot.Administrateur_Role)) {
-        bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(delete_embed)
+        if (message.member.roles.find("id", bot.Moderateur_Role) || message.member.roles.find("id", bot.Administrateur_Role)) {
+            await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(delete_embed)
+        }
+
+    } catch (error) {
+        console.log("erreur messageDelete")
+        console.error(error)
     }
 })
 
@@ -382,7 +388,7 @@ bot.on("message", async (message) => {
     }
 
     //demande-de-droits
-    if(message.channel.id == "453483219770277888"){
+    if (message.channel.id == "453483219770277888") {
         await message.delete(500)
     }
 });
