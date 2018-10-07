@@ -188,6 +188,7 @@ bot.on("guildBanAdd", async (guild, member) => {
 
 
 bot.on("guildMemberAdd", async member => {
+    let serv = "453464806062817281"
     var usr = member
     let embed_welcome = new Discord.RichEmbed()
         .setColor("GREEN")
