@@ -433,7 +433,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                             c.setParent(now.voiceChannel.parent).then(async () => {
                                 await now.setVoiceChannel(c).then(async () => {
                                     setTimeout(async () => {
-                                        await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                     })
                                 }, 1000);
                             })
@@ -455,47 +455,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(error)
         }
 
-    }
-
-    //Salon "autres jeux"
-    else if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
-        //Si le mec vient de join un vocal
-        try {
-
-            log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
-            if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
-                //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
-                if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                        //c.setParent(now.voiceChannel.parent).then(() => {
-                        c.setParent(now.voiceChannel.parent).then(async () => {
-                            await now.setVoiceChannel(c).then(async () => {
-                                setTimeout(async () => {
-                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                })
-                            }, 1000);
-                        })
-                        //})
-                    })
-                } else {
-                    now.setVoiceChannel(channel).then(async m => {
-                        setTimeout(async () => {
-                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                        })
-                    }, 1000);
-                }
-
-
-            }
-        } catch (error) {
-            log(error)
-        }
-
-    }
-
-    //Salons normaux
+    }//Salons normaux
     else if (old.voiceChannel && now.voiceChannel) {
 
         try {
@@ -536,7 +496,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                             c.setParent(now.voiceChannel.parent).then(async () => {
                                 await now.setVoiceChannel(c).then(async () => {
                                     setTimeout(async () => {
-                                        await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                     })
                                 }, 1000);
                             })
@@ -559,6 +519,43 @@ bot.on("voiceStateUpdate", async (old, now) => {
     }
 
     //Salon "autres jeux"
+    if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+        //Si le mec vient de join un vocal
+        try {
+
+            log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
+            if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+                //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
+                        })
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
+
+
+            }
+        } catch (error) {
+            log(error)
+        }
+
+    }
+    //Salon "autres jeux"
     else if (old.voiceChannel && now.voiceChannel) {
 
         try {
@@ -573,7 +570,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                         c.setParent(now.voiceChannel.parent).then(async () => {
                             await now.setVoiceChannel(c).then(async () => {
                                 setTimeout(async () => {
-                                    await c.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
                                 })
                             }, 1000);
                         })
