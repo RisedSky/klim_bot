@@ -447,7 +447,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
     }
 
     //Salon "autres jeux"
-    if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
+    else if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
         //Si le mec vient de join un vocal
         try {
 
@@ -485,7 +485,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
     }
 
     //Salons normaux
-    if (old.voiceChannel && now.voiceChannel) {
+    else if (old.voiceChannel && now.voiceChannel) {
 
         try {
             if (!now.voiceChannel.name == voice_create_voice_name) return;
@@ -548,7 +548,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
     }
 
     //Salon "autres jeux"
-    if (old.voiceChannel && now.voiceChannel) {
+    else if (old.voiceChannel && now.voiceChannel) {
 
         try {
             if (!now.voiceChannel.name == voice_create_voice_name_autres_jeux) return;
