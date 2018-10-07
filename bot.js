@@ -451,7 +451,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
         //Si le mec vient de join un vocal
         try {
 
-            log(`1- Detected the join of ${now.user.tag}`)
+            log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
@@ -507,14 +507,19 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find("name", "Rocket League", { VIEW_CHANNEL: true }))
                             await c.overwritePermissions(now.guild.roles.find("name", "FIFA", { VIEW_CHANNEL: true }))
                         } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
                             await c.overwritePermissions(now.guild.roles.find("name", "World of Warcraft", { VIEW_CHANNEL: true }))
                             await c.overwritePermissions(now.guild.roles.find("name", "HearthStone", { VIEW_CHANNEL: true }))
+
+                        } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
+                            await c.overwritePermissions(now.guild.roles.find("name", "Playerunknown's Battlegrounds", { VIEW_CHANNEL: true }))
+
                         } else c.overwritePermissions(now.guild.roles.find("name", now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+
+                        await c.overwritePermissions(now.guild.roles.find("name", "@everyone"), { VIEW_CHANNEL: false })
 
                         setTimeout(async () => {
                             c.setParent(now.voiceChannel.parent).then(async () => {
@@ -547,7 +552,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
 
         try {
             if (!now.voiceChannel.name == voice_create_voice_name_autres_jeux) return;
-            log(`2 - Detected the join of ${now.user.tag}`)
+            log(`2 AutresJeux - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
                 if (!channel) {
