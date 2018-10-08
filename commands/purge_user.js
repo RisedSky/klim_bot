@@ -25,16 +25,28 @@ module.exports = {
         call.message.react("✅").then(() => {
             setTimeout(() => {
                 var message_deleted = 0
+                const salonHighlight = "495968450095742976"
+                    , serv = "453464806062817281"
+
+                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **purge_user ${call.args[0]} ${call.args[1]}**`)
+
                 if (NumberToPurge == 101) {
+
+
                     call.message.channel.fetchMessages({ limit: 100 })
-                        .then(async messages => {
-                            for (var i in messages.array()) {
-                                if (messages.array()[i].member.id == call.args[0].substr(2, 18)) {
-                                    if (messages.array()[i].deletable) await messages.array()[i].delete()
-                                }
+                    .then(async messages => {
+                        for (var i in messages.array()) {
+                            if (message_deleted == call.args[1]) return console.log(`${message_deleted} -- ${call.args[1]} (Finished)`);
+
+
+                            if (messages.array()[i].member.id == call.args[0].substr(2, 18)) {
+                                if (messages.array()[i].deletable) await messages.array()[i].delete()
+                                message_deleted++
                             }
-                        })
-                        .catch(console.error)
+
+                        }
+                    })
+                    .catch(console.error)
                 } else {
                     call.message.channel.fetchMessages({ limit: 100 })
                         .then(async messages => {

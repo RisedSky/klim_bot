@@ -48,6 +48,10 @@ module.exports = {
 
                     await salon_id.send(mess_send)
                     if (message_id.deletable) await message_id.delete()
+                    const salonHighlight = "495968450095742976"
+                        , serv = "453464806062817281"
+
+                    await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **move_mess ${call.args[0]} <#${call.args[1]}>**`)
 
                 })
                 .catch(console.error);
