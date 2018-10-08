@@ -51,7 +51,7 @@ module.exports = {
                     const salonHighlight = "495968450095742976"
                         , serv = "453464806062817281"
 
-                    await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **move_mess ${call.args[0]} <#${call.args[1]}>**`)
+                    await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **move_mess ${call.args[0]} ${call.args[1]}**`)
 
                 })
                 .catch(console.error);
