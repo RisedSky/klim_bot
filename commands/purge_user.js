@@ -22,13 +22,13 @@ module.exports = {
             NumberToPurge = 101
         } else { NumberToPurge = call.args[1] }
 
-        call.message.react("✅").then(() => {
-            setTimeout(() => {
+        call.message.react("✅").then(async () => {
+            setTimeout(async () => {
                 var message_deleted = 0
                 const salonHighlight = "495968450095742976"
                     , serv = "453464806062817281"
 
-                await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **purge_user ${call.args[0]} ${call.args[1]}**`)
+                await call.bot.guilds.find(async s => s.id == serv).channels.find(async c => c.id == salonHighlight).send(`**${usr.user.tag}** a utilisé la commande :arrow_right: **purge_user ${call.args[0]} ${call.args[1]}**`)
 
                 if (NumberToPurge == 101) {
 
