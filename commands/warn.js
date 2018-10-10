@@ -21,7 +21,8 @@ module.exports = {
                 return message.reply("❌ Vous devez absolument mettre la raison de votre avertissement.").then(m => { call.bot.deleteUserMessage(m, 10000) })
             }
 
-            var user_warned = message.guild.members.find("id", call.args[0])
+            //var user_warned = message.guild.members.find("id", call.args[0])
+            var user_warned = call.bot.users.find(u => u.id == call.args[0])
             if (!user_warned) {
                 console.log("pas trouvé")
                 return message.reply(`Je n'ai pas trouvé l'utilisateur '\`${call.args[0]}\`'`)
@@ -34,7 +35,6 @@ module.exports = {
                             .setColor("#FFFF00")
                             .setDescription(`:warning: Vous avez reçu un avertissement par ${call.bot.GetUserMention(message.author.id)}\n\nPour la raison suivante :\`\`\`${call.content.split(call.args[0])[1]}\`\`\``)
                             .setTimestamp()
-
 
                         c.send(embed_warning)
                         /*
@@ -50,7 +50,6 @@ module.exports = {
                     })
             }
         }
-
 
         const category_name = String(message.channel.parent.name).toLowerCase() //Toujours en lowercase
         let logs_channel = "495968450095742976"
