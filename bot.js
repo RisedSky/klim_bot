@@ -111,7 +111,7 @@ bot.on("guildMemberRemove", async member => {
         var kick = await logs.entries.first()
         if (kick.target.id != member.id) {
             var salon = "498236604981182475"
-            bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag} :arrow_right: vient de quitter le discord`)
+            bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
             return log("Juste un leave");
         }
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
@@ -226,7 +226,7 @@ bot.on("guildMemberAdd", async member => {
         })
 
     var salon = "498236604981182475"
-    if (member.guild.id == "364679913707667461") await bot.guilds.find("id", serv).channels.find("id", salon).send(`:inbox_tray: ${member.user.tag} :arrow_right: vient de rejoindre le discord`)
+    if (member.guild.id == "364679913707667461") await bot.guilds.find("id", serv).channels.find("id", salon).send(`:inbox_tray: ${member.user.tag}`) // :arrow_right: vient de rejoindre le discord
 
 })
 
