@@ -395,6 +395,7 @@ bot.on("message", async (message) => {
 
     //demande-de-droits
     if (message.channel.id == "453483219770277888") {
+        if(message.member == message.guild.me) return;
         await message.delete(500)
     }
 });
