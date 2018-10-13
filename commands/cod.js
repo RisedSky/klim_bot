@@ -4,8 +4,8 @@ module.exports = {
         var msg = call.message;
         var usr = call.message.member;
 
-        var role = msg.guild.roles.find("name", "Call of Duty")
-            , role_name = "Call of Duty"
+        var role = msg.guild.roles.find("name", "Call of Duty Blackout")
+            , role_name = "Call of Duty Blackout"
 
         setTimeout(async () => {
             await call.message.delete()
