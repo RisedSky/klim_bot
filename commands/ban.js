@@ -32,7 +32,13 @@ module.exports = {
                                 .setDescription(`:warning: Vous avez été banni du serveur ${call.message.guild.name} par ${call.bot.GetUserMention(message.author.id)} (${call.message.author.tag})\n\nPour la raison suivante:\`\`\`${call.content.split(call.args[0])[1]}\`\`\``)
 
                             c.send(embed_ban)
-                            user_warned.ban(({ reason: `${call.content.split(call.args[0])[1]} (demandé par ${message.author.tag})` }))
+                            message.guild.fetchMember(user_warned)
+                                .then(u => {
+                                    u.ban(({ reason: `${call.content.split(call.args[0])[1]} (demandé par ${message.author.tag})` }))
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                })
 
                             message.react("✅").then(() => {
                                 call.bot.deleteUserMessage(message, 10 * 1000)
