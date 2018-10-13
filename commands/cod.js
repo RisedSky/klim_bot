@@ -7,7 +7,15 @@ module.exports = {
         var role = msg.guild.roles.find("name", "Call of Duty")
             , role_name = "Call of Duty"
 
+        setTimeout(async () => {
+            await call.message.delete()
+        }, 2500);
+
         if (!role) return await msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
+
+        if (usr.roles.find(r => r.id == call.bot.Administrateur_Role) || usr.roles.find(r => r.id == call.bot.Moderateur_Role)) {
+            return await call.message.react("❌")
+        }
 
         await call.message.react("✅")
         const salonHighlight = "495968450095742976"
@@ -30,8 +38,5 @@ module.exports = {
             })
         }
 
-        setTimeout(async () => {
-            await call.message.delete()
-        }, 2500);
     }
 }

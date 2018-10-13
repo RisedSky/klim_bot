@@ -7,7 +7,15 @@ module.exports = {
         var role = msg.guild.roles.find("name", "HearthStone")
             , role_name = "HearthStone"
 
+        setTimeout(async () => {
+            await call.message.delete()
+        }, 2500);
+
         if (!role) return await msg.channel.send(`❌ Le rôle \`${role_name}\` ne semble pas exister ? :thinking:`)
+
+        if (usr.roles.find(r => r.id == call.bot.Administrateur_Role) || usr.roles.find(r => r.id == call.bot.Moderateur_Role)) {
+            return await call.message.react("❌")
+        }
 
         await call.message.react("✅")
         const salonHighlight = "495968450095742976"
@@ -29,7 +37,7 @@ module.exports = {
                 await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${role_name}**`)
             })
         }
-        
+
         setTimeout(async () => {
             await call.message.delete()
         }, 2500);
