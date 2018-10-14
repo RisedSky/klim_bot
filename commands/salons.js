@@ -23,8 +23,8 @@ module.exports = {
             .setColor("GREEN")
             .setAuthor("Comment créer votre propre salon privé ?", call.bot.user.avatarURL)
             .setDescription(`${call.bot.invisible_emote}\n` +
-                `:small_orange_diamond: Rejoignez le salon \"créer votre salon privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n`+
-                `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section "KLIM eSport" rejoindre "autres jeux", un salon privé sera automatiquement crée.\n${call.bot.invisible_emote}`)
+                `:small_orange_diamond: Rejoignez le salon \"créer-votre-salon-privé\" de votre section de jeu, attendez quelques secondes et le tour est joué !\n\n` +
+                `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section "KLIM eSport" rejoindre "autres-jeux", un salon privé sera automatiquement crée.\n${call.bot.invisible_emote}`)
             .addField(`:information_source: Notez que vous allez avoir la permission de kicker ou bannir les personnes ainsi que de modifier **votre salon**.\n`, //\n\n
                 `${call.bot.invisible_emote}\n**Voici quelques points sur ces permissions **: \n` +
                 `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le "Serveur muet" ("Server Mute"), le bot va détecter ce mute et va alors kicker la personne **de votre salon**.\n\n` +

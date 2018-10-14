@@ -207,7 +207,8 @@ bot.on("guildMemberAdd", async member => {
         .addField(`Pour accéder à vos salons favoris.`, `:small_orange_diamond: Faites la commande : **${bot.config.prefix} "vos jeux"** dans le salon <#453483219770277888> cela va vous permettre d'accéder à vos différentes sections de jeux.\n${bot.invisible_emote}`)
         .addField(`Les salons vocaux privés de KLIM.`, `:small_orange_diamond: Vous avez accès à des salons privés sur notre serveur discord.\n` +
             `Avec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM!\n\n` +
-            `:small_orange_diamond: Rejoignez le salon "créer votre salon privé" de votre section de jeu, attendez quelques secondes et le tour est joué !\n${bot.invisible_emote}\n` + `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section "KLIM eSport" rejoindre "autres jeux", un salon privé sera automatiquement crée.\n${bot.invisible_emote}`)// +
+            `:small_orange_diamond: Rejoignez le salon "créer-votre-salon-privé" de votre section de jeu, attendez quelques secondes et le tour est joué !\n${bot.invisible_emote}\n\n` +
+            `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section "KLIM eSport" rejoindre "autres-jeux", un salon privé sera automatiquement crée.\n${bot.invisible_emote}`)
 
         .addField(`:information_source: Notez que vous allez avoir la permission de kicker ou bannir les personnes ainsi que de modifier **votre salon**.`, //\n\n
             `${bot.invisible_emote}\n**Voici quelques points sur ces permissions **: \n` +
@@ -395,7 +396,7 @@ bot.on("message", async (message) => {
 
     //demande-de-droits
     if (message.channel.id == "453483219770277888") {
-        if(message.member == message.guild.me) return;
+        if (message.member == message.guild.me) return;
         await message.delete(500)
     }
 });
@@ -406,8 +407,8 @@ bot.on("error", err => {
 
 bot.on("voiceStateUpdate", async (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
-    var voice_create_voice_name = "créer votre salon privé"
-    var voice_create_voice_name_autres_jeux = "autres jeux"
+    var voice_create_voice_name = "créer-votre-salon-privé"
+    var voice_create_voice_name_autres_jeux = "autres-jeux"
 
     //Salons normaux
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
@@ -525,7 +526,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
 
     }
 
-    //Salon "autres jeux"
+    //Salon "autres-jeux"
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
         //Si le mec vient de join un vocal
         try {
@@ -562,7 +563,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
         }
 
     }
-    //Salon "autres jeux"
+    //Salon "autres-jeux"
     else if (old.voiceChannel && now.voiceChannel) {
 
         try {
@@ -611,8 +612,8 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.setMute(false)
                 await now.setDeaf(false)
 
-                var salon = now.voiceChannel.parent.children.find(c => { c.name == "créer votre salon privé" })
-                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == "autres jeux" })
+                var salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name })
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name_autres_jeux })
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
             }
@@ -627,8 +628,8 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.setMute(false)
                 await now.setDeaf(false)
 
-                var salon = now.voiceChannel.parent.children.find(c => { c.name == "créer votre salon privé" })
-                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == "autres jeux" })
+                var salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name })
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name_autres_jeux })
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
             }
