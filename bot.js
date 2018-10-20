@@ -424,7 +424,6 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -438,6 +437,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                         } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
 
                         await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
 
                         setTimeout(async () => {
                             c.setParent(now.voiceChannel.parent).then(async () => {
@@ -488,7 +488,6 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -502,6 +501,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                         } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
 
                         await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
 
                         setTimeout(async () => {
                             c.setParent(now.voiceChannel.parent).then(async () => {
