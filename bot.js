@@ -182,6 +182,7 @@ bot.on("guildBanAdd", async (guild, member) => {
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
         if (No_Show.includes(ban.executor.id)) return log("Don't show !");
 
+        if (ban.executor.id == guild.me.id) return;
         log(ban.reason)
         log(ban.executor.tag)
 
@@ -423,6 +424,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        await c.setBitrate(128000).catch(e => { console.error(e.message); c.setBitrate(96000) })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -486,6 +488,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        await c.setBitrate(128000).catch(e => { console.error(e.message); c.setBitrate(96000) })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -612,8 +615,8 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.setMute(false)
                 await now.setDeaf(false)
 
-                var salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name })
-                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name_autres_jeux })
+                var salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name)
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name_autres_jeux)
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
             }
@@ -628,8 +631,8 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.setMute(false)
                 await now.setDeaf(false)
 
-                var salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name })
-                if (!salon) salon = now.voiceChannel.parent.children.find(c => { c.name == voice_create_voice_name_autres_jeux })
+                var salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name)
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name_autres_jeux)
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
             }
