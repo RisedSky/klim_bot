@@ -8,6 +8,104 @@ bot.Klim_Server = "426157164466405377"
 //#region List des rôles givable
 //bot.csgo = ""
 //#endregion
+//bot.Twitter = "<:Twitter:"
+
+//504055814059982860
+//insta
+bot.insta = "<:insta:504055814059982860>"
+
+//504055813950668811
+//amazon
+bot.amazon = "<:amazon:504055813950668811>"
+
+//504051544203984896
+//fb
+bot.fb = "<:fb:504051544203984896>"
+
+//id: '503973243619770398',
+//name: 'csgo',
+bot.csgo = "<:csgo:503973243619770398>"
+
+//id: '503973240889147393',
+//name: 'css',
+bot.css = "<:css:503973240889147393>"
+
+//id: '503973243913240576',
+//name: 'lol',
+bot.lol = "<:lol:503973243913240576>"
+
+//id: '503973243422769163',
+//name: 'hs',
+bot.hs = "<:hs:503973243422769163>"
+
+//id: '503973243271774218',
+//name: 'kappa',
+bot.kappa = "<:kappa:503973243271774218>"
+
+//id: '503973242864926750',
+//name: 'pubg',
+bot.pubg = "<:pubg:503973242864926750>"
+
+//id: '503973243137425408',
+//name: 'wow',
+bot.wow = "<:wow:503973243137425408>"
+
+//id: '503973242449428513',
+//name: 'r6s',
+bot.r6s = "<:r6s:503973242449428513>"
+
+//id: '503973242378256392',
+//name: 'fifa',
+bot.fifa = "<:fifa:503973242378256392>"
+
+//id: '503973242248364033',
+//name: 'ow',
+bot.ow = "<:ow:503973242248364033>"
+
+//id: '503973242080460811',
+//name: 'dota2',
+bot.dota2 = "<:dota2:503973242080460811>"
+
+//id: '503973241094799360',
+//name: 'fortnite',
+bot.fortnite = "<:fortnite:503973241094799360>"
+
+//id: '503973240407064576',
+//name: 'bo4',
+bot.bo4 = "<:bo4:503973240407064576>"
+
+//id: '503973242223198244',
+//name: 'rocket',
+bot.rocket = "<:rocket:503973242223198244>"
+
+//id: '503973240843010069',
+//name: 'klimtechs',
+bot.klimtechs = "<:klimtechs:503973240843010069>"
+
+//id: '503973242235518986',
+//name: 'klimcommunity',
+bot.klimcommunity = "<:klimcommunity:503973242235518986>"
+
+//id: '503973241258246144',
+//name: 'klimesports',
+bot.klimesports = "<:klimesports:503973241258246144>"
+
+//503976784107143169
+//name: "twitter"
+bot.twitter = "<:twitter:503976784107143169>"
+
+//503976784216457226
+//twitch
+bot.twitch = "<:twitch:503976784216457226>"
+
+//503976784384098304
+//youtube
+bot.youtube = "<:youtube:503976784384098304>"
+
+//503976784342155321
+//steam
+bot.steam = "<:steam:503976784342155321>"
+
 bot.invisible_emote = "<:vide:456161732901994506>"
 bot.Streamer_Role = "440172608969900035"
 bot.Partenaires_Role = "445136652076056577"
@@ -363,7 +461,7 @@ bot.on("message", async (message) => {
                 } else message.reply("Cette commande ne fonctionne pas en message privé").catch(() => { });
             }
         } catch (error) {
-            console.log("Erreur bot :286")
+            console.log("Erreur bot :366")
             console.error(error)
         }
     }
@@ -404,6 +502,22 @@ bot.on("message", async (message) => {
 
 bot.on("error", err => {
     console.error(err)
+})
+
+bot.on("channelUpdate", async (oldchannel, newchannel) => {
+    if (oldchannel.name.includes("[PV]")) {
+        if (newchannel.name != oldchannel.name) {
+            let user = String(oldchannel.name).substr(5)
+            console.log(user)
+            let userfind = bot.users.find(u => u.username == user)
+            if(!userfind) return console.log("pas trouvé")
+            await newchannel.setName(oldchannel.name)
+            console.log(oldchannel.name);
+            
+            return console.log("defined")
+        }
+    }
+
 })
 
 bot.on("voiceStateUpdate", async (old, now) => {
