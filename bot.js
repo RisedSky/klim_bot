@@ -14,7 +14,7 @@ const games = {
     fortniteid: "503973241094799360",
 
     //COD
-    bo4name: "Call of Duty Blackout",
+    bo4name: "Call of Duty",
     bo4id: "503973240407064576",
     //#endregion
 
