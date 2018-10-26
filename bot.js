@@ -863,7 +863,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
     //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
-    reaction.message.guild.fetchMember(user, true).then(user => {
+    await reaction.message.guild.fetchMember(user, true).then(user => {
         if (user.roles.find(r => r.id == bot.ResponsableSection_Role) || user.roles.find(r => r.id == bot.Moderateur_Role)) {
             return console.log("detected ResponsableSection_Role / Moderateur_Role")
         }
@@ -1073,7 +1073,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
     //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
-    reaction.message.guild.fetchMember(user, true).then(user => {
+    await reaction.message.guild.fetchMember(user, true).then(user => {
         if (user.roles.find(r => r.id == bot.ResponsableSection_Role) || user.roles.find(r => r.id == bot.Moderateur_Role)) {
             return console.log("detected ResponsableSection_Role / Moderateur_Role")
         }
@@ -1094,8 +1094,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.pubgname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.pubgname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.pubgname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.pubgname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.pubgname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.pubgname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1110,8 +1110,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.fortnitename)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.fortnitename))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.fortnitename}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.fortnitename}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fortnitename}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.fortnitename}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1126,8 +1126,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.bo4name)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.bo4name))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.bo4name}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.bo4name}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.bo4name}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.bo4name}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1146,8 +1146,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.csgoname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.csgoname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.csgoname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.csgoname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.csgoname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.csgoname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1162,8 +1162,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.r6sname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.r6sname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.r6sname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.r6sname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.r6sname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.r6sname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1178,8 +1178,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.owname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.owname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.owname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.owname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.owname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.owname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1197,8 +1197,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.wowname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.wowname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.wowname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.wowname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.wowname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.wowname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1213,8 +1213,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.hsname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.hsname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.hsname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.hsname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.hsname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.hsname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1229,8 +1229,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.dota2name)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.dota2name))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.dota2name}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.dota2name}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.dota2name}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.dota2name}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1245,8 +1245,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.rocketname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.rocketname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.rocketname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.rocketname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.rocketname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.rocketname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
@@ -1261,8 +1261,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                     if (member.roles.find(r => r.name == games.fifaname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.fifaname))
-                        await usr.createDM().then(async c => await c.send(`✅ Rôle \`${games.fifaname}\` supprimé.`))
-                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${usr.user.tag}** s'est enlevé le rôle :arrow_right: **${games.fifaname}**`)
+                        await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fifaname}\` supprimé.`))
+                        await call.bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.user.tag}** s'est enlevé le rôle :arrow_right: **${games.fifaname}**`)
                     } else {
                         console.log("pas trouvé")
                     }
