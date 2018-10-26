@@ -1,3 +1,69 @@
+const games = {
+    //#region Pole Battle Royale
+    //PUBG
+    /*
+    ANCIEN
+    pubgname: "Playerunknown's Battlegrounds",
+    pubgid: "503973242864926750",
+    */
+    pubgname: "Playerunknown's Battlegrounds",
+    pubgid: "505380807737606155",
+
+    //FTN
+    fortnitename: "Fortnite",
+    fortniteid: "503973241094799360",
+
+    //COD
+    bo4name: "Call of Duty Blackout",
+    bo4id: "503973240407064576",
+    //#endregion
+
+    //#region Pole FPS
+    //CS
+    csgoname: "Counter-Strike",
+    csgoid: "503973243619770398",
+
+    cssname: "Counter-Strike",
+    cssid: "503973240889147393",
+
+    //R6
+    r6sname: "Rainbow Six Siege",
+    r6sid: "503973242449428513",
+
+    //OW        
+    owname: "Overwatch",
+    owid: "503973242248364033",
+    //#endregion
+
+    //#region Pole MMOBA - Sports
+    //WoW
+    wowname: "World of Warcraft",
+    wowid: "503973243137425408",
+
+    //HS
+    hsname: "HearthStone",
+    hsid: "503973243422769163",
+
+    //LoL
+    lolname: "League of Legends",
+    lolid: "503973243913240576",
+
+    //D2
+    dota2name: "Dota 2",
+    dota2id: "503973242080460811",
+
+    //----
+
+    //RL
+    rocketname: "Rocket League",
+    rocketid: "503973242223198244",
+
+    //FIFA
+    fifaname: "FIFA",
+    fifaid: "503973242378256392"
+    //#endregion
+
+}
 const Discord = require("discord.js")
     , bot = new Discord.Client()
 //#region Vars
@@ -13,98 +79,127 @@ bot.Klim_Server = "426157164466405377"
 //504055814059982860
 //insta
 bot.insta = "<:insta:504055814059982860>"
+bot.instaid = "504055814059982860"
 
 //504055813950668811
 //amazon
 bot.amazon = "<:amazon:504055813950668811>"
+bot.amazonid = "504055813950668811"
 
 //504051544203984896
 //fb
 bot.fb = "<:fb:504051544203984896>"
+bot.fbid = "504051544203984896"
 
 //id: '503973243619770398',
 //name: 'csgo',
 bot.csgo = "<:csgo:503973243619770398>"
+bot.csgoid = "503973243619770398"
 
 //id: '503973240889147393',
 //name: 'css',
 bot.css = "<:css:503973240889147393>"
+bot.cssid = "503973240889147393"
 
 //id: '503973243913240576',
 //name: 'lol',
 bot.lol = "<:lol:503973243913240576>"
+bot.lolid = "503973243913240576"
 
 //id: '503973243422769163',
 //name: 'hs',
 bot.hs = "<:hs:503973243422769163>"
+bot.hsid = "503973243422769163"
 
 //id: '503973243271774218',
 //name: 'kappa',
 bot.kappa = "<:kappa:503973243271774218>"
+bot.kappaid = "503973243271774218"
 
 //id: '503973242864926750',
 //name: 'pubg',
+/*
+ANCIEN
 bot.pubg = "<:pubg:503973242864926750>"
+bot.pubgid = "503973242864926750"
+*/
+bot.pubg = "<:pubg:505380807737606155>"
+bot.pubgid = "505380807737606155"
 
 //id: '503973243137425408',
 //name: 'wow',
 bot.wow = "<:wow:503973243137425408>"
+bot.wowid = "503973243137425408"
 
 //id: '503973242449428513',
 //name: 'r6s',
 bot.r6s = "<:r6s:503973242449428513>"
+bot.r6sid = "503973242449428513"
 
 //id: '503973242378256392',
 //name: 'fifa',
 bot.fifa = "<:fifa:503973242378256392>"
+bot.fifaid = "503973242378256392"
 
 //id: '503973242248364033',
 //name: 'ow',
 bot.ow = "<:ow:503973242248364033>"
+bot.owid = "503973242248364033"
 
 //id: '503973242080460811',
 //name: 'dota2',
 bot.dota2 = "<:dota2:503973242080460811>"
+bot.dota2id = "503973242080460811"
 
 //id: '503973241094799360',
 //name: 'fortnite',
 bot.fortnite = "<:fortnite:503973241094799360>"
+bot.fortniteid = "503973241094799360"
 
 //id: '503973240407064576',
 //name: 'bo4',
 bot.bo4 = "<:bo4:503973240407064576>"
+bot.bo4id = "503973240407064576"
 
 //id: '503973242223198244',
 //name: 'rocket',
 bot.rocket = "<:rocket:503973242223198244>"
+bot.rocketid = "503973242223198244"
 
 //id: '503973240843010069',
 //name: 'klimtechs',
 bot.klimtechs = "<:klimtechs:503973240843010069>"
+bot.klimtechsid = "503973240843010069"
 
 //id: '503973242235518986',
 //name: 'klimcommunity',
 bot.klimcommunity = "<:klimcommunity:503973242235518986>"
+bot.klimcommunityid = "503973242235518986"
 
 //id: '503973241258246144',
 //name: 'klimesports',
 bot.klimesports = "<:klimesports:503973241258246144>"
+bot.klimesportsid = "503973241258246144"
 
 //503976784107143169
 //name: "twitter"
 bot.twitter = "<:twitter:503976784107143169>"
+bot.twitterid = "503976784107143169"
 
 //503976784216457226
 //twitch
 bot.twitch = "<:twitch:503976784216457226>"
+bot.twitchid = "503976784216457226"
 
 //503976784384098304
 //youtube
 bot.youtube = "<:youtube:503976784384098304>"
+bot.youtubeid = "503976784384098304"
 
 //503976784342155321
 //steam
 bot.steam = "<:steam:503976784342155321>"
+bot.steamid = "503976784342155321"
 
 bot.invisible_emote = "<:vide:456161732901994506>"
 bot.Streamer_Role = "440172608969900035"
@@ -510,10 +605,10 @@ bot.on("channelUpdate", async (oldchannel, newchannel) => {
             let user = String(oldchannel.name).substr(5)
             console.log(user)
             let userfind = bot.users.find(u => u.username == user)
-            if(!userfind) return console.log("pas trouvé")
+            if (!userfind) return console.log("pas trouvé")
             await newchannel.setName(oldchannel.name)
             console.log(oldchannel.name);
-            
+
             return console.log("defined")
         }
     }
@@ -756,6 +851,395 @@ bot.on("voiceStateUpdate", async (old, now) => {
 })
 
 bot.login(bot.config.BOT_TOKEN)
+
+
+bot.on("messageReactionAdd", async (reaction, user) => {
+    if (user.bot) return console.log("bot reaction detected")
+    if (!reaction.message.guild) return await console.log("pas guild");
+    console.log("id => " + reaction.message.author.id)
+    //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
+    if (!reaction.message.author.bot) return await console.log("pas mwa")
+    if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
+    let guild = reaction.message.guild
+
+    //console.log(reaction.emoji)
+    //console.log(user.username)
+    switch (reaction.emoji.id) {
+
+        //#region Pole Battle Royale
+        //PUBG
+        case games.pubgid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.pubgname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.pubgname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //FTN
+        case games.fortniteid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.fortnitename)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.fortnitename))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //COD
+        case games.bo4id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.bo4name)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.bo4name))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //#endregion
+
+        //#region Pole FPS
+        //CS
+        case games.csgoid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.csgoname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.csgoname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //R6
+        case games.r6sid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.r6sname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.r6sname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //OW
+        case games.owid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.owname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.owname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+        //#endregion
+
+        //#region Pole MMOBA - Sports
+        //WOW
+        case games.wowid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.wowname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.wowname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //HS
+        case games.hsid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.hsname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.hsname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //D2
+        case games.dota2id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.dota2name)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.dota2name))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //RL
+        case games.rocketid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.rocketname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.rocketname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //FIFA
+        case games.fifaid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.fifaname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.fifaname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //#endregion
+
+        default:
+            break;
+    }
+})
+
+bot.on("messageReactionRemove", async (reaction, user) => {
+    if (user.bot) return console.log("bot reaction detected")
+    if (!reaction.message.guild) return await console.log("pas guild");
+    console.log("id => " + reaction.message.author.id)
+    //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
+    if (!reaction.message.author.bot) return await console.log("pas mwa")
+    if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
+    let guild = reaction.message.guild
+
+    //console.log(reaction.emoji)
+    //console.log(user.username)
+    switch (reaction.emoji.id) {
+
+        //#region Pole Battle Royale
+        //PUBG
+        case games.pubgid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.pubgname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.pubgname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //FTN
+        case games.fortniteid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.fortnitename)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.fortnitename))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //COD
+        case games.bo4id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.bo4name)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.bo4name))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //#endregion
+
+
+        //#region Pole FPS
+        //CS
+        case games.csgoid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.csgoname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.csgoname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //R6
+        case games.r6sid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.r6sname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.r6sname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //OW
+        case games.owid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.owname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.owname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+        //#endregion
+
+
+        //#region Pole MMOBA - Sports
+        //WOW
+        case games.wowid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.wowname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.wowname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //HS
+        case games.hsid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.hsname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.hsname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //D2
+        case games.dota2id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.dota2name)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.dota2name))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //RL
+        case games.rocketid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.rocketname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.rocketname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //FIFA
+        case games.fifaid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (member.roles.find(r => r.name == games.fifaname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.fifaname))
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //#endregion
+
+        default:
+            break;
+    }
+})
+
+const events = {
+    MESSAGE_REACTION_ADD: 'messageReactionAdd',
+    MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
+
+bot.on("raw", async event => {
+    if (!events.hasOwnProperty(event.t)) return;
+
+    const { d: data } = event;
+    const user = bot.users.get(data.user_id);
+    const channel = bot.channels.get(data.channel_id) || await user.createDM();
+
+    if (channel.messages.has(data.message_id)) return;
+
+    const message = await channel.fetchMessage(data.message_id);
+    const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
+    let reaction = message.reactions.get(emojiKey);
+
+    if (!reaction) {
+        const emoji = new Discord.Emoji(bot.guilds.get(data.guild_id), data.emoji);
+        reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === bot.user.id);
+    }
+
+    await bot.emit(events[event.t], reaction, user);
+});
 
 
 //#region Functions
