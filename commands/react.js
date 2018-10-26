@@ -15,15 +15,15 @@ module.exports = {
             //.setDescription(call.bot.invisible_emote + "\n")
 
             .setDescription(`${call.bot.invisible_emote}\n` +
-                `Si vous êtes nouveau sur le Discord KLIM, vous aurez accès uniquement au département ${call.bot.klimtechs} Technologies et ${call.bot.klimesports} eSports.\n\n` +
-                `Afin que vous puissiez accéder aux différentes sections de jeux choisissez vos jeux en cliquant sur les réactions.\n\n` +
-                `Vous aurez également à disposition **des salons privés afin de vous permettre de discuter aisément avec vos amis**.\n\n` +
-                `Pour créer un salon privé il vous suffit de cliquer sur le salon vocal "@créer-votre-salon-privé" dans la section de jeu de votre choix.\n\n` +
-                `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section KLIM eSports **rejoindre le salon vocal "@autres-jeux"**, un salon privé sera automatiquement crée.\n\n` +
-                `Une fois cela fait, vous allez avoir la permission de **muter et de bannir les personnes dans votre salon**.\n\n` +
-                `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le **"Serveur muet"**, le bot va détecter ce mute et va alors **kicker la personne de votre salon**.\n\n` +
-                `:small_orange_diamond: Si cette personne en question revient dans votre salon, mutez le avec le **"Serveur sourd"**, il sera alors **"banni" de votre salon jusqu'à sa suppression**.\n\n` +
-                `:small_orange_diamond: Vous pouvez également **changer le nombre de slot si vous avez en avez l'envie** en faisant clique droit sur votre salon puis **"modifier le salon"**.`
+                `Si vous êtes nouveau sur le **Discord KLIM**, vous aurez accès uniquement au département ${call.bot.klimtechs} **Technologies** et ${call.bot.klimesports} **eSports**.\n\n` +
+                `Afin que vous puissiez accéder aux différentes sections de jeux choisissez vos jeux en cliquant sur les **réactions**.\n\n` +
+                `Vous aurez également à disposition des **salons privés** afin de vous permettre de discuter aisément avec vos amis.\n\n` +
+                `Pour créer un salon privé il vous suffit de cliquer sur le salon vocal **"@créer-votre-salon-privé"** dans la section de jeu de votre choix.\n\n` +
+                `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section **KLIM eSports** rejoindre le salon vocal **"@autres-jeux"**, un salon privé sera automatiquement crée.\n\n` +
+                `Une fois cela fait, vous allez avoir la permission de** muter** et de **bannir** les personnes dans votre salon.\n\n` +
+                `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le **"Serveur muet"**, le bot va détecter ce mute et va alors **kicker** la personne de votre salon.\n\n` +
+                `:small_orange_diamond: Si cette personne en question revient dans votre salon, mutez le avec le **"Serveur sourd"**, il sera alors **"banni"** de votre salon jusqu'à sa suppression.\n\n` +
+                `:small_orange_diamond: Vous pouvez également changer le nombre de slot si vous avez en avez l'envie en faisant clique droit sur votre salon puis **"modifier le salon"**.`
             )
             .setColor("GREEN")
         //await call.message.channel.bulkDelete(100)
