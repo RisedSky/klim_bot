@@ -15,7 +15,8 @@ module.exports = {
             //.setDescription(call.bot.invisible_emote + "\n")
 
             .setDescription(`${call.bot.invisible_emote}\n` +
-                `Si vous êtes nouveau sur le Discord KLIM, vous aurez accès uniquement au département ${call.bot.klimtechs} Technologies et ${call.bot.klimesports} eSports, afin que vous puissiez accéder aux différentes sections de jeux choisissez vos jeux en cliquant sur les réactions.\n` +
+                `Si vous êtes nouveau sur le Discord KLIM, vous aurez accès uniquement au département ${call.bot.klimtechs} Technologies et ${call.bot.klimesports} eSports.\n\n` +
+                `Afin que vous puissiez accéder aux différentes sections de jeux choisissez vos jeux en cliquant sur les réactions.\n\n` +
                 `Vous aurez également à disposition **des salons privés afin de vous permettre de discuter aisément avec vos amis**.\n\n` +
                 `Pour créer un salon privé il vous suffit de cliquer sur le salon vocal "@créer-votre-salon-privé" dans la section de jeu de votre choix.\n\n` +
                 `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section KLIM eSports **rejoindre le salon vocal "@autres-jeux"**, un salon privé sera automatiquement crée.\n\n` +
