@@ -13,33 +13,17 @@ module.exports = {
             //.setAuthor(`Les rôles vous permettrons d'accéder aux différents salons de vos jeux favoris.`, call.bot.user.avatarURL)
             .setAuthor(`Utilisez les emotes pour vous donner/retirer votre jeu.`, call.bot.user.avatarURL)
             //.setDescription(call.bot.invisible_emote + "\n")
-            
-            /*.setDescription(`${call.bot.invisible_emote}\n` +
-                `**__PÔLE BATTLE ROYALE :__**\n\n` +
-                //:small_orange_diamond: 
-                `${call.bot.fortnite} Section Fortnite\n\n` +
-                `${call.bot.pubg} Section Playerunknown's Battlegrounds\n\n` +
-                `${call.bot.bo4} Section Call of Duty Blackout\n\n\n` +
 
-                `**__PÔLE FPS :__**\n\n` +
-                `${call.bot.csgo} Section Counter-Strike\n\n` +
-                `${call.bot.r6s} Section Rainbow Six Siège\n\n` +
-                `${call.bot.ow} Section Overwatch\n\n\n` +
-
-                `**__PÔLE MMOBA - SPORTS :__**\n\n` +
-                `${call.bot.lol} Section League of Legends\n\n` +
-                `${call.bot.dota2} Section Dota 2\n\n` +
-                `${call.bot.rocket} Section Rocket League\n\n` +
-                `${call.bot.fifa} Section FIFA\n\n`+
-                `${call.bot.wow} Section World of Warcraft\n\n` +
-                `${call.bot.hs} Section HearthStone\n\n`
-                /*
-                `Pôle Sport-Action :\n`+
-                `:small_orange_diamond: Section Minecraft\n`+
-                `:small_orange_diamond: Section Grand Theft Auto`)
-                */
-
-            //)
+            .setDescription(`${call.bot.invisible_emote}\n` +
+                `Si vous êtes nouveau sur le Discord KLIM, vous aurez accès uniquement au département ${call.bot.klimtechs} Technologies et ${call.bot.klimesports} eSports, afin que vous puissiez accéder aux différentes sections de jeux choisissez vos jeux en cliquant sur les réactions.\n` +
+                `Vous aurez également à disposition **des salons privés afin de vous permettre de discuter aisément avec vos amis**.\n\n` +
+                `Pour créer un salon privé il vous suffit de cliquer sur le salon vocal "@créer-votre-salon-privé" dans la section de jeu de votre choix.\n\n` +
+                `:warning: Si votre jeu ne se trouve dans aucune des sections disponibles, allez dans la section KLIM eSports **rejoindre le salon vocal "@autres-jeux"**, un salon privé sera automatiquement crée.\n\n` +
+                `Une fois cela fait, vous allez avoir la permission de **muter et de bannir les personnes dans votre salon**.\n\n` +
+                `:small_orange_diamond: Lorsque vous mutez quelqu'un avec le **"Serveur muet"**, le bot va détecter ce mute et va alors **kicker la personne de votre salon**.\n\n` +
+                `:small_orange_diamond: Si cette personne en question revient dans votre salon, mutez le avec le **"Serveur sourd"**, il sera alors **"banni" de votre salon jusqu'à sa suppression**.\n\n` +
+                `:small_orange_diamond: Vous pouvez également **changer le nombre de slot si vous avez en avez l'envie** en faisant clique droit sur votre salon puis **"modifier le salon"**.`
+            )
             .setColor("GREEN")
         //await call.message.channel.bulkDelete(100)
         setTimeout(async () => {

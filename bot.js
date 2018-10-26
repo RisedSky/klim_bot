@@ -1078,8 +1078,6 @@ bot.on("messageReactionRemove", async (reaction, user) => {
     const salonHighlight = "495968450095742976"
         , serv = "453464806062817281"
     
-    let guild = reaction.message.guild
-
     //console.log(reaction.emoji)
     //console.log(user.username)
     switch (reaction.emoji.id) {
