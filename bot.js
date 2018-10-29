@@ -864,10 +864,13 @@ bot.on("messageReactionAdd", async (reaction, user) => {
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
     await reaction.message.guild.fetchMember(user, true).then(user => {
-        if (user.roles.find(r => r.id == bot.ResponsableSection_Role) || user.roles.find(r => r.id == bot.Moderateur_Role)) {
-            return console.log("detected ResponsableSection_Role / Moderateur_Role")
-        }
+        user.roles.find(r => {
+            if (r.id == bot.ResponsableSection_Role || r.id == bot.Moderateur_Role) {
+                return console.log("detected ResponsableSection_Role / Moderateur_Role")
+            }
+        })
     })
+
     let guild = reaction.message.guild
     const salonHighlight = "495968450095742976"
         , serv = "453464806062817281"
@@ -1096,10 +1099,13 @@ bot.on("messageReactionRemove", async (reaction, user) => {
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
     await reaction.message.guild.fetchMember(user, true).then(user => {
-        if (user.roles.find(r => r.id == bot.ResponsableSection_Role) || user.roles.find(r => r.id == bot.Moderateur_Role)) {
-            return console.log("detected ResponsableSection_Role / Moderateur_Role")
-        }
+        user.roles.find(r => {
+            if (r.id == bot.ResponsableSection_Role || r.id == bot.Moderateur_Role) {
+                return console.log("detected ResponsableSection_Role / Moderateur_Role")
+            }
+        })
     })
+
     let guild = reaction.message.guild
     const salonHighlight = "495968450095742976"
         , serv = "453464806062817281"
