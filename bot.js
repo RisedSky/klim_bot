@@ -1331,7 +1331,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
         case games.lolid:
             await guild.fetchMember(user, true)
                 .then(async member => {
-                    if (!member.roles.find(r => r.name == games.lolname)) {
+                    if (member.roles.find(r => r.name == games.lolname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
 
@@ -1349,7 +1349,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
         case games.lolidserv:
             await guild.fetchMember(user, true)
                 .then(async member => {
-                    if (!member.roles.find(r => r.name == games.lolname)) {
+                    if (member.roles.find(r => r.name == games.lolname)) {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
 
