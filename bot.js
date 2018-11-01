@@ -48,7 +48,7 @@ const games = {
     //LoL
     lolname: "League of Legends",
     lolid: "503973243913240576",
-    lolidserv: "503693672316010523",
+    lolidserv: "453905058044575758",
 
     //D2
     dota2name: "Dota 2",
