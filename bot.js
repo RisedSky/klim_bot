@@ -3,12 +3,13 @@ const games = {
     //PUBG
     /*
     ANCIEN
-    pubgname: "Playerunknown's Battlegrounds",
     pubgid: "503973242864926750",
+
+    pubgid: "505380807737606155",
+    pubgid: "507583317965799454",
     */
     pubgname: "Playerunknown's Battlegrounds",
-    pubgid: "505380807737606155",
-
+    pubgid: "507584619797938176",
     //FTN
     fortnitename: "Fortnite",
     fortniteid: "503973241094799360",
@@ -124,8 +125,11 @@ ANCIEN
 bot.pubg = "<:pubg:503973242864926750>"
 bot.pubgid = "503973242864926750"
 */
-bot.pubg = "<:pubg:505380807737606155>"
-bot.pubgid = "505380807737606155"
+//bot.pubg = "<:pubg:505380807737606155>"
+//bot.pubg = "<:pubg:507583317965799454>"
+//bot.pubgid = "507583317965799454"
+bot.pubg = "<:pubg:507584619797938176>"
+bot.pubgid = "507584619797938176"
 
 //id: '503973243137425408',
 //name: 'wow',
