@@ -48,6 +48,7 @@ const games = {
     //LoL
     lolname: "League of Legends",
     lolid: "503973243913240576",
+    lolidserv: "503693672316010523",
 
     //D2
     dota2name: "Dota 2",
@@ -1072,6 +1073,24 @@ bot.on("messageReactionAdd", async (reaction, user) => {
                 .catch(async e => console.error(e))
             break;
 
+        //lol du serv offi
+        case games.lolidserv:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.lolname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
+
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.lolname}**`)
+                        })
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
         //RL
         case games.rocketid:
             await guild.fetchMember(user, true)
@@ -1316,7 +1335,25 @@ bot.on("messageReactionRemove", async (reaction, user) => {
                         console.log("trouvé")
                         await member.removeRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
 
-                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` supprimé.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est enlevé le rôle :arrow_right: **${games.lolname}**`)
+                        })
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.error(e))
+            break;
+
+        //lol du serv offi
+        case games.lolidserv:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.lolname)) {
+                        console.log("trouvé")
+                        await member.removeRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
+
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` supprimé.`))
                             await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est enlevé le rôle :arrow_right: **${games.lolname}**`)
                         })
                     } else {
