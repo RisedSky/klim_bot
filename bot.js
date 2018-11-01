@@ -401,7 +401,7 @@ bot.on("guildMemberAdd", async member => {
         .setColor("GREEN")
         .setAuthor(`Bienvenue sur le serveur discord KLIM !`, bot.avatarURL)
         .setDescription(`Avant toute chose merci de lire ce message, puis ensuite d'aller lire le <#364687962916651010>\n${bot.invisible_emote}`)
-        .addField(`Pour accéder à vos salons favoris.`, `:small_orange_diamond: Faites la commande : **${bot.config.prefix} "vos jeux"** dans le salon <#453483219770277888> cela va vous permettre d'accéder à vos différentes sections de jeux.\n${bot.invisible_emote}`)
+        .addField(`Pour accéder à vos salons favoris.`, `:small_orange_diamond: Allez dans le salon <#453483219770277888>, puis réagissez avec les réactions, cela va vous permettre d'accéder à vos différentes sections de jeux.\n${bot.invisible_emote}`)
         .addField(`Les salons vocaux privés de KLIM.`, `:small_orange_diamond: Vous avez accès à des salons privés sur notre serveur discord.\n` +
             `Avec ces salons vous allez pouvoir communiquer avec des personnes ou avec vos amis directement sur le serveur officiel de KLIM!\n\n` +
             `:small_orange_diamond: Rejoignez le salon "créer-votre-salon-privé" de votre section de jeu, attendez quelques secondes et le tour est joué !\n${bot.invisible_emote}\n\n` +
@@ -863,9 +863,11 @@ bot.on("messageReactionAdd", async (reaction, user) => {
     //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
-    await reaction.message.guild.fetchMember(user, true).then(user => {
-        user.roles.find(r => {
-            if (r.id == bot.ResponsableSection_Role || r.id == bot.Moderateur_Role) {
+
+    await reaction.message.guild.fetchMember(user, true).then(async user => {
+        await user.roles.find(async r => {
+            if ((r.id == bot.ResponsableSection_Role) || (r.id == bot.Moderateur_Role)) {
+                await reaction.remove(user)
                 return console.log("detected ResponsableSection_Role / Moderateur_Role")
             }
         })
