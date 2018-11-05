@@ -884,8 +884,13 @@ bot.on("messageReactionAdd", async (reaction, user) => {
     reaction.message.guild.fetchMember(user, true).then(user => {
         user.roles.find(r => {
             if ((r.id == bot.ResponsableSection_Role) || (r.id == bot.Moderateur_Role)) {
-            //if ((r.id == "440172608969900035") || (r.id == "475790839919017994")) {R Streamer R Translator G private
+                //if ((r.id == "440172608969900035") || (r.id == "475790839919017994")) {R Streamer R Translator G private
                 getout = true
+                try {
+                    reaction.remove(user)
+                } catch (error) {
+                    console.log(`Can't remove reaction of ${user.user.tag}`)
+                }
                 return console.log("detected ResponsableSection_Role / Moderateur_Role")
             }
         })
