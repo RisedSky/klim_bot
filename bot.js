@@ -277,7 +277,7 @@ bot.once('ready', () => {
     }
 
     for (var i in bot.guilds.array()) {
-        if (bot.guilds.array()[i].id == "426157164466405377") { //serv klim public > 364679913707667461
+        if (bot.guilds.array()[i].id == "364679913707667461") { //serv klim public > 364679913707667461
             bot.guilds.array()[i].roles.forEach(r => console.log(`${r.name} » ${r.id}`))
             //console.log(`${i} » ${g.roles.array()[i]}`)
         }
