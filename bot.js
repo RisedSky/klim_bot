@@ -276,6 +276,13 @@ bot.once('ready', () => {
         console.log(`${i} » '${bot.guilds.array()[i]}'`)
     }
 
+    for (var i in bot.guilds.array()) {
+        if (bot.guilds.array()[i].id == "426157164466405377") { //serv klim public > 364679913707667461
+            bot.guilds.array()[i].roles.forEach(r => console.log(`${r.name} » ${r.id}`))
+            //console.log(`${i} » ${g.roles.array()[i]}`)
+        }
+    }
+
     setInterval(() => {
         loop_verification()
     }, ms("5m"));
