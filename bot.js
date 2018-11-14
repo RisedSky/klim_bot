@@ -841,16 +841,16 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
                         } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
 
                         } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
 
-                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true, CONNECT: false })
 
                         await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
                         await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
