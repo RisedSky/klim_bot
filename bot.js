@@ -634,6 +634,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
     var voice_create_voice_name = "créer-votre-salon-privé"
     var voice_create_voice_name_autres_jeux = "autres-jeux"
+    var voice_create_voice_name_events = "Tournois"
 
     //Salons normaux
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
@@ -789,8 +790,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(error)
         }
 
-    }
-    //Salon "autres-jeux"
+    }//Salon "autres-jeux"
     else if (old.voiceChannel && now.voiceChannel) {
 
         try {
@@ -827,15 +827,107 @@ bot.on("voiceStateUpdate", async (old, now) => {
 
     }
 
+    //Salon "events"
+    if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name_events) {
+        //Si le mec vient de join un vocal
+        try {
 
-    if (!old.serverMute && now.serverMute) {
-        var embed_kick_private = new Discord.RichEmbed()
-            .setColor("RED")
-            .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
+            log(`1 Events- Detected the join of ${now.user.tag}`)
+            if (now.voiceChannel.name == voice_create_voice_name_events) {
+                //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
+
+                        } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
+
+                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+
+                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
+
+                        setTimeout(async () => {
+                            c.setParent(now.voiceChannel.parent).then(async () => {
+                                await now.setVoiceChannel(c).then(async () => {
+                                    setTimeout(async () => {
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                    })
+                                }, 1000);
+                            })
+                        }, 800);
+
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
 
 
-        if (old.voiceChannel.name == now.voiceChannel.name) {
-            if (now.voiceChannel.name.includes("[PV]")) {
+            }
+        } catch (error) {
+            log(error)
+        }
+
+    }//Salon "events"
+    else if (old.voiceChannel && now.voiceChannel) {
+
+        try {
+            if (!now.voiceChannel.name == voice_create_voice_name_events) return;
+            log(`2 Events - Detected the join of ${now.user.tag}`)
+            if (now.voiceChannel.name == voice_create_voice_name_events) {
+                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
+                        })
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
+
+
+            }
+        } catch (error) {
+            log(error)
+        }
+
+    }
+
+
+    if (!old.serverMute && now.serverMute) {//Si avant il n'était pas mute micro
+
+        if (old.voiceChannel.name == now.voiceChannel.name) {//Si le salon où il est est le même que son mute
+
+            if (now.voiceChannel.name.includes("[PV]")) {//Si le salon dans lequel il est contient [PV]
+                var embed_kick_private = new Discord.RichEmbed()
+                    .setColor("RED")
+                    .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
+
                 await now.setMute(false)
                 await now.setDeaf(false)
 
@@ -843,15 +935,29 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 if (!salon) salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name_autres_jeux)
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
-            }
+
+            } /*else if (now.voiceChannel.name.includes("[TRN]")) {//Si le salon dans lequel il est contient [PV]
+                var embed_kick_private = new Discord.RichEmbed()
+                    .setColor("RED")
+                    .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[TRN]")[1].slice(1)}**`)
+
+                await now.setMute(false)
+                await now.setDeaf(false)
+
+                var salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name)
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name_events)
+                await now.user.createDM().then(async c => await c.send(embed_kick_private))
+                await now.setVoiceChannel(salon)
+            }*/
         }
     } else if (!old.serverDeaf && now.serverDeaf) {
-        var embed_kick_private = new Discord.RichEmbed()
-            .setColor("RED")
-            .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
 
         if (old.voiceChannel.name == now.voiceChannel.name) {
             if (now.voiceChannel.name.includes("[PV]")) {
+                var embed_kick_private = new Discord.RichEmbed()
+                    .setColor("RED")
+                    .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[PV]")[1].slice(1)}**`)
+
                 await now.setMute(false)
                 await now.setDeaf(false)
 
@@ -860,7 +966,21 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
             }
-        }
+        }/* else if (old.voiceChannel.name == now.voiceChannel.name) {
+            if (now.voiceChannel.name.includes("[TRN]")) {
+                var embed_kick_private = new Discord.RichEmbed()
+                    .setColor("RED")
+                    .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[TRN]")[1].slice(1)}**`)
+
+                await now.setMute(false)
+                await now.setDeaf(false)
+
+                var salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name)
+                if (!salon) salon = now.voiceChannel.parent.children.find(c => c.name == voice_create_voice_name_events)
+                await now.user.createDM().then(async c => await c.send(embed_kick_private))
+                await now.setVoiceChannel(salon)
+            }
+        }*/
     }
 
 })
