@@ -634,7 +634,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
     var voice_create_voice_name = "créer-votre-salon-privé"
     var voice_create_voice_name_autres_jeux = "autres-jeux"
-    var voice_create_voice_name_events = "Tournois"
+    var voice_create_voice_name_events = "tournois"
 
     //Salons normaux
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
