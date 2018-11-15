@@ -1001,6 +1001,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
 
+    /*
     reaction.message.guild.fetchMember(user, true).then(user => {
         user.roles.find(r => {
             if ((r.id == bot.ResponsableSection_Role) || (r.id == bot.Moderateur_Role)) {
@@ -1015,6 +1016,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
             }
         })
     })
+    */
 
     //console.log(reaction.emoji)
     //console.log(user.username)
@@ -1284,6 +1286,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
     //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
     if (!reaction.message.author.bot) return await console.log("pas mwa")
     if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
+
+    /*
     await reaction.message.guild.fetchMember(user, true).then(user => {
         user.roles.find(r => {
             if (r.id == bot.ResponsableSection_Role || r.id == bot.Moderateur_Role) {
@@ -1292,6 +1296,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
             }
         })
     })
+    */
 
     setTimeout(async () => {
         if (getout == true) return console.log(`getout is true`);
