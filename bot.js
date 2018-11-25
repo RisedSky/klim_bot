@@ -215,12 +215,6 @@ bot.VIP_Role = "364693732374740994"
 bot.Administrateur_Role = "365131394676031489"
 bot.Moderateur_Role = "364682190006517771"
 bot.ResponsableSection_Role = "505011080431534091"
-bot.rolesArray = [
-    `Counter-Strike : ${bot.config.prefix} csgo`,
-    `Fortnite : ${bot.config.prefix} ftn`,
-    `HearthStone : ${bot.config.prefix} hs`,
-    `League of Legends : ${bot.config.prefix} lol`
-]
 
 bot.admin_id = [
     "145632403946209280", //RisedSky
@@ -548,6 +542,7 @@ bot.on("message", async (message) => {
             bot.member_Has_KICK_MEMBERS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("KICK_MEMBERS") && message.channel.type === 'text'
             bot.member_Has_MANAGE_GUILD = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_GUILD") && message.channel.type === 'text'
             bot.member_has_MANAGE_MESSAGES = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_MESSAGES") && message.channel.type === 'text'
+            bot.member_has_MANAGE_CHANNELS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_CHANNELS") && message.channel.type === 'text'
             //#endregion
 
             /*
