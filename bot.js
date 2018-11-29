@@ -217,7 +217,7 @@ bot.Moderateur_Role = "364682190006517771"
 bot.ResponsableSection_Role = "505011080431534091"
 
 bot.admin_id = [
-    "145632403946209280", //RisedSky
+    "516033691525447680", //RisedSky Ancien : 145632403946209280
     "239887147765727232", //KLIM iQuakerstar
     "340509678347878401", //KLIM Tibo
     "204892097357021184" //Klim B4ttix
@@ -598,8 +598,8 @@ bot.on("message", async (message) => {
         */
     }
 
-    //demande-de-droits
-    if (message.channel.id == "453483219770277888") {
+    //demande-de-droits ancien : 453483219770277888
+    if (message.channel.id == "364687962916651010") {
         if (message.member == message.guild.me) return;
         await message.delete(500)
     }

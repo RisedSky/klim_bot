@@ -6,7 +6,7 @@ module.exports = {
 
         //message, bot, bot.commands, args, content, prefix, cmd
 
-        let owner_list = ["145632403946209280"];
+        let owner_list = call.bot.admin_id
         if (!owner_list.includes(message.author.id)) return;
         //if (!message.author.username == "KLIM RisedSky") return;
         //if (!message.author.discriminator == "1250") return;
