@@ -599,10 +599,10 @@ bot.on("message", async (message) => {
     }
 
     //demande-de-droits ancien : 453483219770277888
-    if (message.channel.id == "364687962916651010") {
+    /*if (message.channel.id == "364687962916651010") {
         if (message.member == message.guild.me) return;
         await message.delete(500)
-    }
+    }*/
 });
 
 bot.on("error", err => {
