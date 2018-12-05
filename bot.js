@@ -667,7 +667,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                                     })
                                 }, 1000);
                             })
-                        }, 800);
+                        }, 1200);
 
                         //})
                     })
@@ -731,7 +731,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                                     })
                                 }, 1000);
                             })
-                        }, 800);
+                        }, 1200);
 
                         //})
                     })
@@ -858,7 +858,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                                     })
                                 }, 1000);
                             })
-                        }, 800);
+                        }, 1200);
 
                         //})
                     })
