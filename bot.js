@@ -66,12 +66,41 @@ const games = {
     //#endregion
 
 }
+
+//#region Colors section
+var logred = function (m) { return console.log(colors.red(m)) }
+    , logblue = function (m) { return console.log(colors.blue(m)) }
+    , logyellow = function (m) { return console.log(colors.yellow(m)) }
+    , loggreen = function (m) { return console.log(colors.green(m)) }
+    , loggrey = function (m) { return console.log(colors.grey(m)) }
+    , logcyan = function (m) { return console.log(colors.cyan(m)) }
+    , logmagenta = function (m) { return console.log(colors.magenta(m)) }
+    , logitalic = function (m) { return console.log(colors.italic(m)) }
+    , lograinbow = function (m) { return console.log(colors.rainbow(m)) }
+
+//#endregion
 const Discord = require("discord.js")
     , bot = new Discord.Client()
+    , colors = require("colors/safe")
+    , ms = require("ms")
+    , Twitch = require("twitch.tv-api")
+
 //#region Vars
 bot.config = require("./config.js").config;
+bot.YTDL = require("ytdl-core")
+bot.URL = require("url")
+bot.moment = require("moment")
+bot.request = require("request")
 bot.prefixLog = "[!]"
 bot.Klim_Server = "426157164466405377"
+bot.servers = {}
+
+const twitch = new Twitch({
+    id: bot.config.twitch_id,
+    secret: bot.config.twitch_secret
+})
+    , fs = require("fs")
+
 
 //#region List des rôles givable
 //bot.csgo = ""
@@ -232,7 +261,11 @@ bot.sendDMToUser = function (message, msgToSend) {
     message.author.createDM()
         .catch(e => {
             if (e.name === "DiscordAPIError") {
-                message.reply("Désolé mais je ne peux pas te MP, ouvre tes MPs stp.")
+                try {
+                    message.reply("Désolé mais je ne peux pas te MP, ouvre tes MPs stp.")
+                } catch (error) {
+                    console.log(error)
+                }
                 return;
             }
         })
@@ -243,28 +276,20 @@ bot.sendDMToUser = function (message, msgToSend) {
 }
 //#endregion
 
-const ms = require("ms")
-    , Twitch = require("twitch.tv-api")
-    , twitch = new Twitch({
-        id: bot.config.twitch_id,
-        secret: bot.config.twitch_secret
-    })
-    , fs = require("fs")
-
 
 bot.once('ready', () => {
     bot.user.setStatus("online")
-    console.log("------------------------------")
-    console.log(`${bot.prefixLog} Bot créé par RisedSky`)
-    console.log(`${bot.prefixLog} Tous droits réservés`)
-    console.log(`${bot.prefixLog} Bot prêt`)
-    console.log("------------------------------")
+    console.log(colors.green("------------------------------"))
+    console.log(colors.green(`${bot.prefixLog} Bot créé par RisedSky`))
+    console.log(colors.green(`${bot.prefixLog} Tous droits réservés`))
+    console.log(colors.green(`${bot.prefixLog} Bot prêt`))
+    console.log(colors.green("------------------------------"))
 
     //bot.user.setActivity(`${bot.config.prefix} help | Lancé et prêt !`);
     bot.user.setActivity(`${bot.config.prefix} help | Lancé et prêt !`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
 
     setTimeout(ChangeState1, ms("15s"));
-    console.log("The bot is now ready !")
+    console.log(colors.blue("The bot is now ready !"))
 
     for (var i in bot.guilds.array()) {
         console.log(`${i} » '${bot.guilds.array()[i]}'`)
@@ -277,9 +302,11 @@ bot.once('ready', () => {
         }
     }
 
+    /*
     setInterval(() => {
         loop_verification()
     }, ms("5m"));
+    */
 
     setInterval(() => {
         channel_loop_verification()
@@ -313,7 +340,8 @@ bot.on("guildMemberRemove", async member => {
         var kick = await logs.entries.first()
         if (kick.target.id != member.id) {
             var salon = "498236604981182475"
-            bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
+            bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
+            //bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
             return log("Juste un leave");
         }
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
@@ -326,36 +354,9 @@ bot.on("guildMemberRemove", async member => {
             //.setAuthor(`${member.user.tag} a été kick manuellement par ${kick.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(kick.target.id)} a été kick manuellement par ${bot.GetUserMention(kick.executor.id)}\n\nPour la raison suivante :\n\`\`\`${kick.reason}\`\`\``)
 
-        if (member.guild.id == "364679913707667461") await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(kick_embed)
+        if (member.guild.id == "364679913707667461") await bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === "495968450095742976").send(kick_embed)
     })
 })
-
-/*
-bot.on("messageDelete", async message => {
-    try {
-        //log("message deleted !")
-        await message.guild.fetchAuditLogs({ type: "MESSAGE_DELETE", limit: 1 })
-            .then(async logs => {
-                var mess_delete = await logs.entries.first()
-                if (mess_delete.executor.bot) return;
-            })
-
-        let serv = "453464806062817281"
-        let delete_embed = new Discord.RichEmbed()
-            .setColor("#FFFF00") //yellow
-            //.setAuthor("Un message a été supprimé manuellement ")
-            .setDescription(`Le message de ${message.member.user.tag} a été supprimé dans le salon : <#${message.channel.id}>\n\nSon contenu était :\n\`\`\`${message.content}\`\`\``)
-
-        if (message.member.roles.find("id", bot.Moderateur_Role) || message.member.roles.find("id", bot.Administrateur_Role)) {
-            await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(delete_embed)
-        }
-
-    } catch (error) {
-        console.log("erreur messageDelete")
-        console.error(error)
-    }
-})
-*/
 
 bot.on("guildBanRemove", async (guild, member) => {
     let serv = "453464806062817281"
@@ -372,7 +373,7 @@ bot.on("guildBanRemove", async (guild, member) => {
             //.setAuthor(`${member.tag} a été débanni manuellement par ${unban.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(unban.target.id)} a été débanni manuellement par ${bot.GetUserMention(unban.executor.id)}`)
 
-        await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(unban_embed)
+        await bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === "495968450095742976").send(unban_embed)
     })
 })
 
@@ -393,10 +394,8 @@ bot.on("guildBanAdd", async (guild, member) => {
             //.setAuthor(`${member.tag} a été banni manuellement par ${ban.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(ban.target.id)} a été banni manuellement par ${bot.GetUserMention(ban.executor.id)}\n\nPour la raison suivante :\n\`\`\`${ban.reason}\`\`\``)
 
-        await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(ban_embed)
+        await bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === "495968450095742976").send(ban_embed)
     })
-
-    //member.createDM().then(c => c.send("a"))
 })
 
 
@@ -430,7 +429,7 @@ bot.on("guildMemberAdd", async member => {
         })
 
     var salon = "498236604981182475"
-    if (member.guild.id == "364679913707667461") await bot.guilds.find("id", serv).channels.find("id", salon).send(`:inbox_tray: ${member.user.tag}`) // :arrow_right: vient de rejoindre le discord
+    if (member.guild.id == "364679913707667461") await bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === salon).send(`:inbox_tray: ${member.user.tag}`) // :arrow_right: vient de rejoindre le discord
 
 })
 
@@ -479,6 +478,20 @@ class Call {
 }
 
 bot.on("message", async (message) => {
+    if (!bot.servers[message.guild.id]) {
+        bot.servers[message.guild.id] = {
+            queue: [],
+            now_playing_data: {},
+            loopit: Boolean,
+            playit: Boolean,
+            dispatcher_paused: Boolean,
+            annonce_it: Boolean
+        }
+    }
+
+    //Declaring variable
+    bot.server = bot.servers[message.guild.id]
+    var server = bot.servers[message.guild.id]
 
     const prefix = await bot.config.prefix,
         cmd = await message.content.slice(bot.config.prefix.length).trim().split(/ +/g).shift(),
@@ -529,20 +542,20 @@ bot.on("message", async (message) => {
 
     if (message.content.startsWith(prefix) && !message.author.bot) {
         try {
-            //#region Permission Du Bot
-            bot.BOT_SEND_MESSAGESPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("SEND_MESSAGES") && message.channel.type === 'text'
-            bot.BOT_MANAGE_MESSAGESPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("MANAGE_MESSAGES") && message.channel.type === 'text'
-            bot.BOT_ADMINISTRATORPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADMINISTRATOR") && message.channel.type === 'text'
-            bot.BOT_USE_EXTERNAL_EMOJISPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("USE_EXTERNAL_EMOJIS") && message.channel.type === 'text'
-            bot.BOT_ADD_REACTIONSPerm = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.guild.me).has("ADD_REACTIONS") && message.channel.type === 'text'
+            //#region Permission Du Bot | bot.guilds.find(async g => g.id === serv).channels.find(async c => c.id === 
+            bot.BOT_SEND_MESSAGESPerm = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.guild.me).has("SEND_MESSAGES") && message.channel.type === 'text'
+            bot.BOT_MANAGE_MESSAGESPerm = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.guild.me).has("MANAGE_MESSAGES") && message.channel.type === 'text'
+            bot.BOT_ADMINISTRATORPerm = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.guild.me).has("ADMINISTRATOR") && message.channel.type === 'text'
+            bot.BOT_USE_EXTERNAL_EMOJISPerm = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.guild.me).has("USE_EXTERNAL_EMOJIS") && message.channel.type === 'text'
+            bot.BOT_ADD_REACTIONSPerm = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.guild.me).has("ADD_REACTIONS") && message.channel.type === 'text'
             //#endregion
 
             //#region Permission de la personne
-            bot.member_Has_BAN_MEMBERS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("BAN_MEMBERS") && message.channel.type === 'text'
-            bot.member_Has_KICK_MEMBERS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("KICK_MEMBERS") && message.channel.type === 'text'
-            bot.member_Has_MANAGE_GUILD = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_GUILD") && message.channel.type === 'text'
-            bot.member_has_MANAGE_MESSAGES = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_MESSAGES") && message.channel.type === 'text'
-            bot.member_has_MANAGE_CHANNELS = await message.guild.channels.find("id", message.channel.id).permissionsFor(message.member).has("MANAGE_CHANNELS") && message.channel.type === 'text'
+            bot.member_Has_BAN_MEMBERS = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.member).has("BAN_MEMBERS") && message.channel.type === 'text'
+            bot.member_Has_KICK_MEMBERS = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.member).has("KICK_MEMBERS") && message.channel.type === 'text'
+            bot.member_Has_MANAGE_GUILD = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.member).has("MANAGE_GUILD") && message.channel.type === 'text'
+            bot.member_has_MANAGE_MESSAGES = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.member).has("MANAGE_MESSAGES") && message.channel.type === 'text'
+            bot.member_has_MANAGE_CHANNELS = await message.guild.channels.find(async c => c.id === message.channel.id).permissionsFor(message.member).has("MANAGE_CHANNELS") && message.channel.type === 'text'
             //#endregion
 
             /*
@@ -614,7 +627,7 @@ bot.on("channelUpdate", async (oldchannel, newchannel) => {
         if (newchannel.name != oldchannel.name) {
             let user = String(oldchannel.name).substr(5)
             console.log(user)
-            let userfind = bot.users.find(u => u.username == user)
+            let userfind = bot.users.find(async u => u.username == user)
             if (!userfind) return console.log("pas trouvé")
             await newchannel.setName(oldchannel.name)
             console.log(oldchannel.name);
@@ -639,22 +652,22 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = await now.voiceChannel.guild.channels.find("name", `[PV] ${now.user.username}`)
+                var channel = await now.voiceChannel.guild.channels.find(async c => c.name === `[PV] ${now.user.username}`)
                 if (!channel) {
                     console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(async r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(async r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
                         } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(async r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(async r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
                         } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(async r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
-                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        } else c.overwritePermissions(now.guild.roles.find(async r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
 
                         await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
                         await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
@@ -1585,7 +1598,7 @@ async function ChangeState1() {
 }
 
 async function ChangeState2() {
-    await bot.user.setActivity(`${bot.config.prefix} help | Giving u some force (づ◕_◕)づ`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
+    await bot.user.setActivity(`${bot.config.prefix} help | Te donner de la force (づ◕_◕)づ`, { type: "STREAMING", url: "https://twitch.tv/KlimTechs" })
     setTimeout(async () => {
         await ChangeState1()
     }, ms("60s"));
@@ -1699,6 +1712,318 @@ function GetUserMention(id) { return `<@${id}>` }
 bot.GetUserMention = function (id) { return `<@${id}>` }
 
 let log = console.log;
+//#endregion
+
+bot.CheckInfo_ToBooleanEmoji = async function (thing) { if (thing) { return `Oui :white_check_mark:` } else { return `Non ❌` } }
+
+bot.deleteMyMessage = async function (message, time) {
+    try {
+        if (time === null) {
+            time = 750;
+        }
+
+        if (!message.author.name === bot.user.name || !message.author.name === bot.user.username) {
+            return;
+        }
+        await message.delete(time).catch(async error => (console.log("deleteMyMessage prblm : " + error)));
+    } catch (error) {
+        console.log("Problem on deleteMyMessage function: " + error)
+    }
+}
+
+//#region "Functions pour la musique"
+bot.AskedBy_EmbedFooter = async function (author) {
+    return await String(`Demandé par ${author.tag} • ID: ${author.id}`);
+}
+
+bot.search_video = async function (message, query) {
+    bot.request(`https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=${encodeURIComponent(query)}&key=${bot.config.yt_api_key}`, async (error, response, body) => {
+        var json = JSON.parse(body);
+
+        if ("error" in json) {
+            await message.reply("Merci de prendre un screen et de l'envoyer à `KLIM RisedSky#4841````\nAn error has occurred: " + json.error.errors[0].message + " - " + json.error.errors[0].reason + "```")
+                .then(async msg => {
+                    await bot.deleteMyMessage(msg, 30000);
+                })
+        } else if (json.items.length === 0) {
+            await message.reply("Aucune vidéo trouvée avec les critères: ```" + query + "```")
+                .then(async msg => {
+                    await bot.deleteMyMessage(msg, 20 * 1000);
+                })
+        } else {
+            await bot.add_to_queue(json.items[0].id.videoId, message);
+        }
+    })
+}
+
+bot.add_to_queue = async function (video, message) {
+    var server = await bot.servers[message.guild.id]
+        , video_id = video
+        , playit = server.playit
+    console.log(`Le playit => ${playit}`)
+
+    bot.YTDL.getInfo(`https://www.youtube.com/watch?v=${video}`, async (error, info) => {
+        if (error) {
+            message.reply(`La vidéo demandée (${video}) n'existe pas ou ne peut être lue.`).then(async msg => {
+                await bot.deleteMyMessage(msg, 15000);
+            })
+            console.log(`Error (${video}): ${error}`);
+            return;
+        }
+
+        console.log(info)
+        console.log(`----------------------`)
+        var date = new Date(null); //défini comme null la date
+        console.log(info.view_count);
+        date.setSeconds(info.length_seconds); //défini la date avec des secondes
+        var result = date.toISOString().substr(11, 8); // récupere le temps et le transforme en HH:mm:ss
+
+        var YouTubeTimeSec = await info.length_seconds
+            , YouTubeViews = await info.view_count
+            , YouTubeUploader = await info.author.name
+            , YouTubeTitle = await info.title
+            , YouTubeThumbnail = await info.thumbnail_url
+            , YouTubeLink = await info.video_url
+            , YouTubeTime = result
+
+        if (playit) {
+            if (server.annonce_it) {
+                var embed = new Discord.RichEmbed()
+                    .setColor("#00FF00")
+
+                    .setThumbnail(YouTubeThumbnail).setURL(YouTubeLink)
+
+                    //petit logo à gauche du titre
+                    .setTitle(`Ajouté à la liste à la [${server.queue.length}] place`)
+
+                    .addField(`Ajout de ${YouTubeTitle}`, `*demandé par ${message.author.username}*`)
+                    .setFooter(await bot.AskedBy_EmbedFooter(message.author))
+                await message.channel.send(embed).then(async msg => {
+                    bot.deleteMyMessage(msg, (YouTubeTimeSec * 1000) - 10);
+                })
+            }
+        }
+
+        if (!playit) {//Si on NE doit PAS jouer la musique alors
+
+            let EmbedAuthorName = "Musique cherchée sur YouTube";
+            let EmbedAuthorIcon = `https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png`;
+
+            var search_embed = new Discord.RichEmbed()
+                .setColor("#00FF00")
+
+                .setThumbnail(YouTubeThumbnail).setURL(YouTubeLink)
+
+                //petit logo à gauche du titre
+                .setAuthor(EmbedAuthorName, EmbedAuthorIcon)
+                .setTitle(YouTubeTitle)
+
+                .addField("Votre demande est", "```" + message.content + "```")
+
+                .addBlankField()
+
+                .addField(`Mise en ligne par`, YouTubeUploader, true)
+                .addField(`Durée de`, `**${YouTubeTime}**`, true)
+
+                .addBlankField()
+
+                .addField(`Vues`, YouTubeViews, true)
+                .addField(`Lien`, `[Cliquez ici](${YouTubeLink})`, true)
+
+                .setFooter(await bot.AskedBy_EmbedFooter(message.author))
+
+
+            await message.channel.send(search_embed).then(async msg => {
+                bot.deleteMyMessage(msg, 600 * 1000)
+            })
+        }
+
+        if (playit) {
+            if (!message.member.voiceChannel) return await message.reply(`❌ Tu as besoin d'être connecté à un salon vocal`).then(async m => await bot.deleteMyMessage(m, 350))
+
+            if (!message.guild.voiceConnection) {
+                server.loopit = false;
+                server.dispatcher_paused = false;
+
+                await message.member.voiceChannel.join()
+                    .then(async connection => {
+                        if (!message.guild.me.serverDeaf) { await message.guild.me.setDeaf(true, "Save bot's bandwith") }
+
+                        await bot.play(connection, message);
+                    })
+                    .catch(async error => {
+                        console.error(error)
+                    })
+            };
+
+            server.queue.push(
+                {
+                    title: info["title"],
+                    id: video_id,
+                    user: message.author.username,
+                    YouTubeTimeSec: YouTubeTimeSec,
+                    YouTubeViews: YouTubeViews,
+                    YouTubeUploader: YouTubeUploader,
+                    YouTubeTitle: YouTubeTitle,
+                    YouTubeThumbnail: YouTubeThumbnail,
+                    YouTubeLink: YouTubeLink,
+                    YouTubeTime: YouTubeTime,
+                    MessContent: message.content
+                }
+            );
+        };
+    })
+
+}
+
+bot.queue_playlist = async function (playlistId, message, pageToken = '') {
+    var Number_Added = 0;
+    var server = await bot.servers[message.guild.id];
+
+
+    bot.request(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${yt_api_key}&pageToken=${pageToken}`, async (error, response, body) => {
+        var json = JSON.parse(body);
+
+        if ("error" in json) {
+            await message.reply(`An error has occurred: ${json.error.errors[0].message} - ${json.error.errors[0].reason}`)
+                .then(async msg => {
+                    await bot.deleteMyMessage(msg, 15 * 1000)
+                });
+        } else if (json.items.length === 0) {
+            await message.reply("Aucune vidéo trouvée dans la playlist.")
+                .then(async msg => {
+                    await bot.deleteMyMessage(msg, 15 * 1000)
+                });
+        } else {
+            for (var i = 0; i < json.items.length; i++) {
+                server.annonce_it = false;
+                await bot.add_to_queue(json.items[i].snippet.resourceId.videoId, message)
+                Number_Added++;
+            }
+
+            if (json.nextPageToken == null) {
+                await message.channel.send(`${Number_Added} Musiques ajoutées.`)
+                    .then(async msg => {
+                        await bot.deleteMyMessage(msg, 20 * 1000)
+                    })
+
+                Number_Added = 0;
+                return;
+            }
+
+            await bot.queue_playlist(playlistId, message, json.nextPageToken)
+        }
+    });
+}
+
+bot.get_video_id = async function (string) {
+    try {
+        var regex = /(?:\?v=|&v=|youtu\.be\/)(.*?)(?:\?|&|$)/;
+        console.log("String: " + string)
+        var matches = String(string.match(regex));
+        console.log("Matches: " + matches)
+
+        if (matches) {
+            return matches[1];
+        } else {
+            return string;
+        }
+
+    } catch (error) {
+        console.log("get_video_id problem => " + error)
+    }
+}
+
+bot.play = async function (connection, message) {
+
+    try {
+        console.log(`-----------------------------------`)
+        console.log(`bot.play section\n----`)
+        var server = bot.servers[message.guild.id];
+        //console.log(message.guild.id)
+
+        setTimeout(async () => {
+
+            var video_id = server.queue[0]["id"];
+            console.log(colors.green(video_id))
+            var title = server.queue[0]["title"];
+            var user = server.queue[0]["user"];
+
+            server.now_playing_data["title"] = title;
+            server.now_playing_data["user"] = user;
+
+            console.log(colors.green(server))
+            console.log(server.queue[0])
+
+            var playit = server.playit;
+
+            var embed = new Discord.RichEmbed()
+                .setColor("#00FF00")
+
+                .setThumbnail(server.queue[0]["YouTubeThumbnail"]).setURL(server.queue[0]["YouTubeLink"]) //miniature + lien vers la vidéo en cliquant sur la minia
+
+                //petit logo à gauche du titre
+                .setAuthor(`Musique actuelle`, `https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png`)
+                .setTitle(server.queue[0]["YouTubeTitle"])
+
+                .addField("Votre demande est", "```" + server.queue[0]["MessContent"] + "```")
+
+                .addBlankField()
+
+                .addField(`Mise en ligne par`, server.queue[0]["YouTubeUploader"], true)
+                .addField(`Durée de`, `**${server.queue[0]["YouTubeTime"]}**`, true) //temps
+
+                .addBlankField()
+
+                .addField(`Vues`, server.queue[0]["YouTubeViews"], true)
+                .addField(`Lien`, `[Cliquez ici](${server.queue[0]["YouTubeLink"]})`, true)
+                /*.setAuthor(YouTubeTitle, message.author.avatarURL)
+                Code qui permet de définir le titre et le logo du demandeur
+                */
+                .setFooter(await bot.AskedBy_EmbedFooter(message.author));
+
+            console.log(`Vues : ${server.queue[0]["YouTubeViews"]}`)
+
+            message.channel.send(embed).then(async msg => {
+                await bot.deleteMyMessage(msg, server.queue[0]["YouTubeTimeSec"] * 1000);
+            })
+
+            server.dispatcher = connection.playStream(
+                await bot.YTDL(video_id, { filter: "audioonly", audioEncondig: "opus", audioBitrate: "64" })
+            );
+
+            await server.dispatcher.setVolume(0.2);
+
+            server.dispatcher.on("end", async function () {
+
+                if (!server.loopit) {
+                    await server.queue.splice(0, 1);
+                }
+
+                if (server.queue[0]) {
+                    setTimeout(async () => {
+                        await bot.play(connection, message);
+                    }, 1200);
+                } else {
+                    if (message.guild.voiceConnection) {
+                        //message.channel.send(bot.EmojiGreenTickString + " Finished the queue from channel: `" + message.guild.voiceConnection.channel.name + "` :wave:")
+                        message.channel.send(`:white_check_mark: Fin de la liste dans le salon : \`${message.guild.voiceConnection.channel.name}\` :wave:`)
+                            .then(async msg => {
+                                await bot.deleteMyMessage(msg, 13 * 1000);
+                            });
+                        await message.guild.voiceConnection.disconnect();
+
+                    }
+                }
+
+            })
+        }, 750);
+
+    } catch (error) {
+        console.log("[play] Function play")
+        console.log(error)
+    }
+}
 //#endregion
 
 module.exports = bot, Call;
