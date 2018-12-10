@@ -6,6 +6,7 @@ module.exports = {
             , Mess_Channel = call.message.channel
         //message, bot, bot.commands, args, content, prefix, cmd
 
+        if (message.guild.id !== "453464806062817281") { message.react("❌").then(async () => { message.delete(2500) }) }
         var server = call.bot.servers[message.guild.id]
         if (!server.dispatcher) {
             //console.log("No dispatcher")

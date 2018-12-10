@@ -1,10 +1,11 @@
 module.exports = {
-    help: { name: "skip" },
+    help: { name: "skip", aliases: ["next"] },
     run: async (call) => {
         var message = call.message
             , Mess_Member = call.message.member
         //message, bot, bot.commands, args, content, prefix, cmd
 
+        if (message.guild.id !== "453464806062817281") { message.react("❌").then(async () => { message.delete(2500) }) }
         var server = await call.bot.servers[message.guild.id]
         if (!Mess_Member.voiceChannel) {
             message.reply(`❌ Tu dois être connecté à un salon vocal si tu veux que je skip une musique`).then(async msg => {
