@@ -6,7 +6,7 @@ module.exports = {
         //message, bot, bot.commands, args, content, prefix, cmd
 
         try {
-            if (message.guild.id !== "453464806062817281") { message.react("❌").then(async () => { message.delete(2500) }) }
+            if (message.guild.id !== "453464806062817281") { return message.react("❌").then(async () => { message.delete(2500) }) }
             var server = call.bot.servers[message.guild.id]
             if (!call.args[0]) {
                 message.react("❌").catch(e => {

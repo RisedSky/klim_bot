@@ -7,9 +7,11 @@ module.exports = {
         //message, bot, bot.commands, args, content, prefix, cmd
 
         try {
+            if (message.guild.id !== "453464806062817281") { return message.react("❌").then(async () => { message.delete(2500) }) }
+
             var server = call.bot.servers[message.guild.id]
             if (!server.queue[0]) {
-                message.reply(call.bot.current_lang.Music_Status_No_Music).then(async msg => {
+                message.reply("❌ Aucune musique actuellement en cours").then(async msg => {
                    await call.bot.deleteMyMessage(msg, 15 * 1000)
                 })
                 return;
