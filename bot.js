@@ -343,7 +343,7 @@ bot.on("guildMemberRemove", async member => {
         var kick = await logs.entries.first()
         if (kick.target.id != member.id) {
             var salon = "498236604981182475"
-            bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
+            bot.guilds.find(g => g.id === serv).channels.find(c => c.id === salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
             //bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
             return log("Juste un leave");
         }
@@ -357,7 +357,7 @@ bot.on("guildMemberRemove", async member => {
             //.setAuthor(`${member.user.tag} a été kick manuellement par ${kick.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(kick.target.id)} a été kick manuellement par ${bot.GetUserMention(kick.executor.id)}\n\nPour la raison suivante :\n\`\`\`${kick.reason}\`\`\``)
 
-        if (member.guild.id == "364679913707667461") await bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === "495968450095742976").send(kick_embed)
+        if (member.guild.id == "364679913707667461") await bot.guilds.find(g => g.id === serv).channels.find(c => c.id === "495968450095742976").send(kick_embed)
     })
 })
 
@@ -376,7 +376,7 @@ bot.on("guildBanRemove", async (guild, member) => {
             //.setAuthor(`${member.tag} a été débanni manuellement par ${unban.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(unban.target.id)} a été débanni manuellement par ${bot.GetUserMention(unban.executor.id)}`)
 
-        await bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === "495968450095742976").send(unban_embed)
+        await bot.guilds.find(g => g.id === serv).channels.find(c => c.id === "495968450095742976").send(unban_embed)
     })
 })
 
@@ -397,7 +397,7 @@ bot.on("guildBanAdd", async (guild, member) => {
             //.setAuthor(`${member.tag} a été banni manuellement par ${ban.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(ban.target.id)} a été banni manuellement par ${bot.GetUserMention(ban.executor.id)}\n\nPour la raison suivante :\n\`\`\`${ban.reason}\`\`\``)
 
-        await bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === "495968450095742976").send(ban_embed)
+        await bot.guilds.find(g => g.id === serv).channels.find(c => c.id === "495968450095742976").send(ban_embed)
     })
 })
 
@@ -432,7 +432,7 @@ bot.on("guildMemberAdd", async member => {
         })
 
     var salon = "498236604981182475"
-    if (member.guild.id == "364679913707667461") await bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === salon).send(`:inbox_tray: ${member.user.tag}`) // :arrow_right: vient de rejoindre le discord
+    if (member.guild.id == "364679913707667461") await bot.guilds.find(g => g.id === serv).channels.find(c => c.id === salon).send(`:inbox_tray: ${member.user.tag}`) // :arrow_right: vient de rejoindre le discord
 
 })
 
@@ -545,7 +545,7 @@ bot.on("message", async (message) => {
 
     if (message.content.startsWith(prefix) && !message.author.bot) {
         try {
-            //#region Permission Du Bot | bot.guilds.find(async g => await g.id === serv).channels.find(c => c.id === 
+            //#region Permission Du Bot | bot.guilds.find(g => g.id === serv).channels.find(c => c.id === 
             bot.BOT_SEND_MESSAGESPerm = await message.guild.channels.find(c => c.id === message.channel.id).permissionsFor(message.guild.me).has("SEND_MESSAGES") && message.channel.type === 'text'
             bot.BOT_MANAGE_MESSAGESPerm = await message.guild.channels.find(c => c.id === message.channel.id).permissionsFor(message.guild.me).has("MANAGE_MESSAGES") && message.channel.type === 'text'
             bot.BOT_ADMINISTRATORPerm = await message.guild.channels.find(c => c.id === message.channel.id).permissionsFor(message.guild.me).has("ADMINISTRATOR") && message.channel.type === 'text'
