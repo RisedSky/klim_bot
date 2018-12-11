@@ -12,13 +12,13 @@ module.exports = {
             var server = call.bot.servers[message.guild.id]
             if (!server.queue[0]) {
                 message.reply("❌ Aucune musique actuellement en cours").then(async msg => {
-                   await call.bot.deleteMyMessage(msg, 15 * 1000)
+                    await call.bot.deleteMyMessage(msg, 15 * 1000)
                 })
                 return;
             }
             var disp_time = call.bot.moment.duration(server.dispatcher.time, "milliseconds")
             console.log(`Server disptacher => '${disp_time.get("seconds")}' - Time => '${server.queue[0]["YouTubeTimeSec"]}'`);
-            
+
             var time_remainingSec = (server.queue[0]["YouTubeTimeSec"] - disp_time.get("seconds"))
 
             var de = new Date(null);
@@ -27,11 +27,11 @@ module.exports = {
 
             embedStatus = new Discord.RichEmbed()
                 .setColor("#FFFF00")
-                .setAuthor(call.bot.current_lang.Music_Status_Status, call.bot.user.avatarURL)
-                .setDescription(`*${call.bot.current_lang.Music_Status_Current_Status}*`)
+                .setAuthor(`Status`, call.bot.user.avatarURL)
+                .setDescription(`*The current status of the song*`)
                 .setThumbnail(server.queue[0]["YouTubeThumbnail"]).setURL(server.queue[0]["YouTubeLink"])
 
-                .addField(`call.bot.current_lang.Music_Status_Current_Song: ${server.queue[0]["title"]}`, `*(demandée par ${server.queue[0]["user"]})*`)
+                .addField(`Musique actuelle : ${server.queue[0]["title"]}`, `*(demandée par ${server.queue[0]["user"]})*`)
                 .addBlankField()
 
                 .addField(`La musique est-elle bouclée ?`, call.bot.CheckInfo_ToBooleanEmoji(server.loopit), true)
@@ -39,17 +39,17 @@ module.exports = {
 
                 .addBlankField()
 
-                .addField(`call.bot.current_lang.Music_Status_Uploaded_By`, server.queue[0]["YouTubeUploader"], true)
-                .addField(`call.bot.current_lang.Music_Status_Song_Duration`, `**${server.queue[0]["YouTubeTime"]}**`, true) //temps
+                .addField(`Mise en ligne par`, server.queue[0]["YouTubeUploader"], true)
+                .addField(`Durée de`, `**${server.queue[0]["YouTubeTime"]}**`, true) //temps
                 .addBlankField(true)
-                .addField(`call.bot.current_lang.Music_Status_Time_Remaining`, `**${TimeRemaining}**`, true)
+                .addField(`Temps restant`, `**${TimeRemaining}**`, true)
 
                 .addBlankField()
 
-                .addField(`call.bot.current_lang.Music_Status_Views`, server.queue[0]["YouTubeViews"], true)
-                .addField(`call.bot.current_lang.Music_Status_Link`, `[Click here](${server.queue[0]["YouTubeLink"]})`, true)
+                .addField(`Vues`, server.queue[0]["YouTubeViews"], true)
+                .addField(`Lien`, `[Cliquez ici](${server.queue[0]["YouTubeLink"]})`, true)
 
-                .setFooter(`${call.bot.current_lang.Music_Status_Requested_By} ${message.author.username} • ID: ${message.author.id}`)
+                .setFooter(`Status demandée par ${message.author.username} • ID: ${message.author.id}`)
 
             message.channel.send(embedStatus).then(async msg => {
                 await call.bot.deleteMyMessage(msg, 120 * 1000);
