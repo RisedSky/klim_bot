@@ -1949,7 +1949,7 @@ bot.play = async function (connection, message) {
             server.now_playing_data["user"] = user;
 
             console.log(colors.green(server))
-            console.log(server.queue[0])
+            //console.log(server.queue[0])
 
             var playit = server.playit;
 
