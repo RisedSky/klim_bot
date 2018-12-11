@@ -652,7 +652,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -718,7 +718,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     })
                 })
                 */
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -775,7 +775,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -812,7 +812,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (!now.voiceChannel.name == voice_create_voice_name_autres_jeux) return;
             log(`2 AutresJeux - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -851,7 +851,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1 Events- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -906,7 +906,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (!now.voiceChannel.name == voice_create_voice_name_events) return;
             log(`2 Events - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
-                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
