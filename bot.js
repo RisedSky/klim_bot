@@ -640,9 +640,9 @@ bot.on("channelUpdate", async (oldchannel, newchannel) => {
 
 bot.on("voiceStateUpdate", async (old, now) => {
     var voice_move_user = "456184854036480000" //Accueil
-    var voice_create_voice_name = "créer-votre-salon-privé"
-    var voice_create_voice_name_autres_jeux = "autres-jeux"
-    var voice_create_voice_name_events = "tournois"
+        , voice_create_voice_name = "créer-votre-salon-privé"
+        , voice_create_voice_name_autres_jeux = "autres-jeux"
+        , voice_create_voice_name_events = "tournois"
 
     //Salons normaux
     if (!old.voiceChannel || !old.voiceChannel.name && now.voiceChannel.name == voice_create_voice_name) {
@@ -652,7 +652,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -718,7 +718,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                     })
                 })
                 */
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -775,7 +775,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -812,7 +812,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (!now.voiceChannel.name == voice_create_voice_name_autres_jeux) return;
             log(`2 AutresJeux - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -851,7 +851,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`1 Events- Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
 
                 setTimeout(async () => {
                     if (!channel) {
@@ -906,7 +906,8 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (!now.voiceChannel.name == voice_create_voice_name_events) return;
             log(`2 Events - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
-                var channel = await now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+                var channel = now.voiceChannel.guild.channels.find(async c => await c.name === `[PV] ${now.user.username}`)
+
                 setTimeout(async () => {
                     if (!channel) {
                         console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
