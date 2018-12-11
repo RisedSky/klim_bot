@@ -84,10 +84,8 @@ const Discord = require("discord.js")
     , colors = require("colors/safe")
     , ms = require("ms")
     , Twitch = require("twitch.tv-api")
+    , fs = require("fs")
     , ffmpeg = require('@ffmpeg-installer/ffmpeg');
-console.log(ffmpeg.path)
-fs.copyFileSync(ffmpeg.path, "./ffmpeg.exe")
-console.log("[!] ffmpeg placed successfully")
 
 //#region Vars
 bot.config = require("./config.js").config;
@@ -103,7 +101,9 @@ const twitch = new Twitch({
     id: bot.config.twitch_id,
     secret: bot.config.twitch_secret
 })
-    , fs = require("fs")
+console.log(ffmpeg.path)
+fs.copyFileSync(ffmpeg.path, "./ffmpeg.exe")
+console.log("[!] ffmpeg placed successfully")
 
 
 //#region List des rôles givable
