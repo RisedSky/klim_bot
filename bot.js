@@ -84,6 +84,10 @@ const Discord = require("discord.js")
     , colors = require("colors/safe")
     , ms = require("ms")
     , Twitch = require("twitch.tv-api")
+    , ffmpeg = require('@ffmpeg-installer/ffmpeg');
+console.log(ffmpeg.path)
+fs.copyFileSync(ffmpeg.path, "./ffmpeg.exe")
+console.log("[!] ffmpeg placed successfully")
 
 //#region Vars
 bot.config = require("./config.js").config;
@@ -654,44 +658,44 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                            if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
-                            } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
-                            } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
 
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
-                            await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
+                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
 
-                            setTimeout(async () => {
-                                c.setParent(now.voiceChannel.parent).then(async () => {
-                                    await now.setVoiceChannel(c).then(async () => {
-                                        setTimeout(async () => {
-                                            await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                        })
-                                    }, 1000);
-                                })
-                            }, 1200);
-
-                            //})
-                        })
-                    } else {
-                        now.setVoiceChannel(channel).then(async m => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        setTimeout(async () => {
+                            c.setParent(now.voiceChannel.parent).then(async () => {
+                                await now.setVoiceChannel(c).then(async () => {
+                                    setTimeout(async () => {
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                    })
+                                }, 1000);
                             })
-                        }, 1000);
-                    }
+                        }, 1200);
+
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
 
             }
         } catch (error) {
@@ -718,44 +722,44 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 */
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                            if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                            } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
-                            } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
-                            } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
 
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
-                            await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
+                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
 
-                            setTimeout(async () => {
-                                c.setParent(now.voiceChannel.parent).then(async () => {
-                                    await now.setVoiceChannel(c).then(async () => {
-                                        setTimeout(async () => {
-                                            await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                        })
-                                    }, 1000);
-                                })
-                            }, 1200);
-
-                            //})
-                        })
-                    } else {
-                        await now.setVoiceChannel(channel).then(async () => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        setTimeout(async () => {
+                            c.setParent(now.voiceChannel.parent).then(async () => {
+                                await now.setVoiceChannel(c).then(async () => {
+                                    setTimeout(async () => {
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                    })
+                                }, 1000);
                             })
-                        }, 1000);
-                    }
+                        }, 1200);
+
+                        //})
+                    })
+                } else {
+                    await now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
             }
         } catch (error) {
             log(error)
@@ -772,26 +776,26 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            //c.setParent(now.voiceChannel.parent).then(() => {
-                            c.setParent(now.voiceChannel.parent).then(async () => {
-                                await now.setVoiceChannel(c).then(async () => {
-                                    setTimeout(async () => {
-                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                    })
-                                }, 1000);
-                            })
-                            //})
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
                         })
-                    } else {
-                        now.setVoiceChannel(channel).then(async m => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                            })
-                        }, 1000);
-                    }
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
             }
         } catch (error) {
             log(error)
@@ -805,26 +809,26 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`2 AutresJeux - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            //c.setParent(now.voiceChannel.parent).then(() => {
-                            c.setParent(now.voiceChannel.parent).then(async () => {
-                                await now.setVoiceChannel(c).then(async () => {
-                                    setTimeout(async () => {
-                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                    })
-                                }, 1000);
-                            })
-                            //})
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
                         })
-                    } else {
-                        now.setVoiceChannel(channel).then(async () => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                            })
-                        }, 1000);
-                    }
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
             }
         } catch (error) {
             log(error)
@@ -841,44 +845,44 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
-                            if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
-                            } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name === "W. Warcraft & HearthStone") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "World of Warcraft"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "HearthStone"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
 
-                            } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
-                                await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
+                        } else if (now.voiceChannel.parent.name == "Playerunknown's BG") {
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
 
-                            } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true, CONNECT: false })
+                        } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true, CONNECT: false })
 
-                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
-                            await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
+                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        await c.setBitrate(128).catch(e => { console.error(e.message); c.setBitrate(96) })
 
-                            setTimeout(async () => {
-                                c.setParent(now.voiceChannel.parent).then(async () => {
-                                    await now.setVoiceChannel(c).then(async () => {
-                                        setTimeout(async () => {
-                                            await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                        })
-                                    }, 1000);
-                                })
-                            }, 1200);
-
-                            //})
-                        })
-                    } else {
-                        now.setVoiceChannel(channel).then(async m => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        setTimeout(async () => {
+                            c.setParent(now.voiceChannel.parent).then(async () => {
+                                await now.setVoiceChannel(c).then(async () => {
+                                    setTimeout(async () => {
+                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                    })
+                                }, 1000);
                             })
-                        }, 1000);
-                    }
+                        }, 1200);
+
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async m => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
             }
         } catch (error) {
             log(error)
@@ -892,26 +896,26 @@ bot.on("voiceStateUpdate", async (old, now) => {
             log(`2 Events - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
-                    if (!channel) {
-                        console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
-                        await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
-                            //c.setParent(now.voiceChannel.parent).then(() => {
-                            c.setParent(now.voiceChannel.parent).then(async () => {
-                                await now.setVoiceChannel(c).then(async () => {
-                                    setTimeout(async () => {
-                                        await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                                    })
-                                }, 1000);
-                            })
-                            //})
+                if (!channel) {
+                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        //c.setParent(now.voiceChannel.parent).then(() => {
+                        c.setParent(now.voiceChannel.parent).then(async () => {
+                            await now.setVoiceChannel(c).then(async () => {
+                                setTimeout(async () => {
+                                    await c.overwritePermissions(now.user, { MANAGE_CHANNELS: true, CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                                })
+                            }, 1000);
                         })
-                    } else {
-                        now.setVoiceChannel(channel).then(async () => {
-                            setTimeout(async () => {
-                                await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
-                            })
-                        }, 1000);
-                    }
+                        //})
+                    })
+                } else {
+                    now.setVoiceChannel(channel).then(async () => {
+                        setTimeout(async () => {
+                            await channel.overwritePermissions(now.user, { CREATE_INSTANT_INVITE: true, DEAFEN_MEMBERS: true, MUTE_MEMBERS: true })
+                        })
+                    }, 1000);
+                }
             }
         } catch (error) {
             log(error)
