@@ -67,17 +67,6 @@ const games = {
 
 }
 
-//#region Colors section
-var logred = function (m) { return console.log(colors.red(m)) }
-    , logblue = function (m) { return console.log(colors.blue(m)) }
-    , logyellow = function (m) { return console.log(colors.yellow(m)) }
-    , loggreen = function (m) { return console.log(colors.green(m)) }
-    , loggrey = function (m) { return console.log(colors.grey(m)) }
-    , logcyan = function (m) { return console.log(colors.cyan(m)) }
-    , logmagenta = function (m) { return console.log(colors.magenta(m)) }
-    , logitalic = function (m) { return console.log(colors.italic(m)) }
-    , lograinbow = function (m) { return console.log(colors.rainbow(m)) }
-
 //#endregion
 const Discord = require("discord.js")
     , bot = new Discord.Client()
@@ -102,9 +91,19 @@ const twitch = new Twitch({
     secret: bot.config.twitch_secret
 })
 console.log(ffmpeg.path)
-fs.copyFileSync(ffmpeg.path, "./ffmpeg.exe")
-console.log("[!] ffmpeg placed successfully")
+//fs.copyFileSync(ffmpeg.path, "./ffmpeg.exe")
+//console.log("[!] ffmpeg placed successfully")
 
+//#region Colors section
+var logred = function (m) { return console.log(colors.red(m)) }
+    , logblue = function (m) { return console.log(colors.blue(m)) }
+    , logyellow = function (m) { return console.log(colors.yellow(m)) }
+    , loggreen = function (m) { return console.log(colors.green(m)) }
+    , loggrey = function (m) { return console.log(colors.grey(m)) }
+    , logcyan = function (m) { return console.log(colors.cyan(m)) }
+    , logmagenta = function (m) { return console.log(colors.magenta(m)) }
+    , logitalic = function (m) { return console.log(colors.italic(m)) }
+    , lograinbow = function (m) { return console.log(colors.rainbow(m)) }
 
 //#region List des rôles givable
 //bot.csgo = ""
