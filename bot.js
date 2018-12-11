@@ -1985,7 +1985,7 @@ bot.play = async function (connection, message) {
             })
 
             server.dispatcher = connection.playStream(
-                await bot.YTDL(video_id, { filter: "audioonly", audioEncondig: "opus", audioBitrate: "64" })
+                bot.YTDL(video_id, { filter: "audioonly", audioEncondig: "opus" })
             );
 
             await server.dispatcher.setVolume(0.2);
