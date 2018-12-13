@@ -22,7 +22,7 @@
     "request": "2.88.0",
     "twitch.tv-api": "1.2.4",
     "url": "0.11.0",
-    "ytdl-core": "^0.28.1"
+    "ytdl-core": "^0.28.2"
   },
   "devDependencies": {},
   "repository": {

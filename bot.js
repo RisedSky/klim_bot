@@ -593,25 +593,12 @@ bot.on("message", async (message) => {
         var regex = new RegExp(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/)
         //if(message.attachments.size < 0 || !message.content.match(regex)) return await message.delete()
 
-        if (!message.attachments.size > 0) {
+        if (message.attachments.size > 0 || message.content.match(regex)) {
+            return;
+        } else {
             //log("1")
             await message.delete(1500)
-        } else {
-            return;
         }
-
-        /*
-        if (!message.content.match(regex)) {
-            log("2")
-            await message.delete()
-        }
-        */
-        /* else if () {
-            return await message.delete()
-        } else if () {|| message.attachments.first().client == undefined
-            return await message.delete()
-        }
-        */
     }
 
     //demande-de-droits ancien : 453483219770277888
@@ -621,7 +608,7 @@ bot.on("message", async (message) => {
     }*/
 });
 
-bot.on("error", err => {
+bot.on("error", async err => {
     console.error(err)
 })
 
@@ -1770,12 +1757,12 @@ bot.add_to_queue = async function (video, message) {
         console.log(info)
         console.log(`----------------------`)
         var date = new Date(null); //défini comme null la date
-        console.log(info.view_count);
+        console.log(info.player_response.videoDetails.viewCount);
         date.setSeconds(info.length_seconds); //défini la date avec des secondes
         var result = date.toISOString().substr(11, 8); // récupere le temps et le transforme en HH:mm:ss
 
         var YouTubeTimeSec = await info.length_seconds
-            , YouTubeViews = await info.view_count
+            , YouTubeViews = await info.player_response.videoDetails.viewCount
             , YouTubeUploader = await info.author.name
             , YouTubeTitle = await info.title
             , YouTubeThumbnail = await info.thumbnail_url
@@ -1948,7 +1935,7 @@ bot.play = async function (connection, message) {
             server.now_playing_data["title"] = title;
             server.now_playing_data["user"] = user;
 
-            console.log(colors.green(server))
+            //console.log(colors.green(server))
             //console.log(server.queue[0])
 
             var playit = server.playit;
