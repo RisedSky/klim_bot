@@ -316,24 +316,6 @@ bot.once('ready', () => {
     }, ms("5m"))
 })
 
-/*
-bot.on("messageUpdate", async (oldmsg, newmsg) => {
-    var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
-    if (oldmsg.member === null) return;
-    if (No_Show.includes(oldmsg.member.id)) return log("Don't show !");
-
-    let serv = "453464806062817281"
-    let update_embed = new Discord.RichEmbed()
-        .setColor("#FFFF00") //yellow
-        .setAuthor("Un message a été modifié")
-        .setDescription(`Le message de ${oldmsg.member.user.tag} a été modifié dans le salon : <#${oldmsg.channel.id}>\n\nSon contenu était :\n\`\`\`${oldmsg.content}\`\`\`\n\nSon contenu est désormais :\n\`\`\`${newmsg.content}\`\`\``)
-        .setTimestamp()
-
-    if (oldmsg.member.roles.find("id", bot.Moderateur_Role) || oldmsg.member.roles.find("id", bot.Administrateur_Role)) {
-        await bot.guilds.find("id", serv).channels.find("id", "495968450095742976").send(update_embed)
-    }
-})
-*/
 
 bot.on("guildMemberRemove", async member => {
     if (!member.bannable) return log("Banni donc pas besoin de mettre la notif de kick")
@@ -343,8 +325,7 @@ bot.on("guildMemberRemove", async member => {
         var kick = await logs.entries.first()
         if (kick.target.id != member.id) {
             var salon = "498236604981182475"
-            bot.guilds.find(g => g.id === serv).channels.find(c => c.id === salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
-            //bot.guilds.find("id", serv).channels.find("id", salon).send(`:outbox_tray: ${member.user.tag}`) // :arrow_right: vient de quitter le discord
+            bot.guilds.find(g => g.id === serv).channels.find(c => c.id === salon).send(`:outbox_tray: ${member.user.tag}`)
             return log("Juste un leave");
         }
         var No_Show = ["239887147765727232", "204892097357021184", "340509678347878401"]
@@ -354,7 +335,6 @@ bot.on("guildMemberRemove", async member => {
 
         let kick_embed = new Discord.RichEmbed()
             .setColor("#E59400") //orange
-            //.setAuthor(`${member.user.tag} a été kick manuellement par ${kick.executor.tag}`)
             .setDescription(`L'utilisateur ${bot.GetUserMention(kick.target.id)} a été kick manuellement par ${bot.GetUserMention(kick.executor.id)}\n\nPour la raison suivante :\n\`\`\`${kick.reason}\`\`\``)
 
         if (member.guild.id == "364679913707667461") await bot.guilds.find(g => g.id === serv).channels.find(c => c.id === "495968450095742976").send(kick_embed)
@@ -617,7 +597,7 @@ bot.on("channelUpdate", async (oldchannel, newchannel) => {
         if (newchannel.name != oldchannel.name) {
             let user = String(oldchannel.name).substr(5)
             console.log(user)
-            let userfind = bot.users.find(async u => u.username == user)
+            let userfind = bot.users.find(u => u.username == user)
             if (!userfind) return console.log("pas trouvé")
             await newchannel.setName(oldchannel.name)
             console.log(oldchannel.name);
@@ -1605,92 +1585,6 @@ async function channel_loop_verification() {
     });
 }
 
-function loop_verification() {
-    /*
-    bot.guilds.forEach(g => {
-        if (g.id == bot.Klim_Server) {
- 
-            var memb_arr = g.members.array()
-            console.log(`Verifying ${memb_arr.length} members`);
-            memb_arr.forEach(user => {
-                //if (!user.roles.exists("id", bot.Partenaires_Role)) return;
-                if (user.user.bot) return;
-                //console.log(user.user.username);
- 
-                if (!user.presence.game) {
-                    if (user.roles.exists("id", bot.Streamer_Role)) {
-                        console.log(`Removed the role streamer to ${user.user.tag} bcs not playing`)
-                        user.removeRole(bot.Streamer_Role);
-                    }
-                    return;
-                }
- 
-                if (!user.presence.game.streaming) {
-                    if (user.roles.exists("id", bot.Streamer_Role)) {
-                        user.removeRole(bot.Streamer_Role);
-                        console.log(`Removed the role streamer to ${user.user.tag} bcs no streaming`)
-                        return
-                    }
-                }
- 
-                if (user.presence.game.streaming) {
-                    let userURL = user.presence.game.url.split("/")[3]
- 
-                    twitch.getUser(userURL)
-                        .then(async data => {
-                            console.log(data);
- 
-                            //console.log(data);
- 
-                            //console.log(data.stream.game);
-                            //if (!data.stream.streaming) {
-                            //    if (user.roles.exists("id", bot.Streamer_Role)) {
-                            //        console.log(`Removed the role Streamer for ${user.user.tag}`);
-                            //        
-                            //        user.removeRole(bot.Streamer_Role)
-                            //    }
-                            //
-                            //}
-                            if (!user.roles.exists("id", bot.Streamer_Role)) {
-                                user.addRole(bot.Streamer_Role)
- 
-                                var embed_msg = new Discord.RichEmbed()
-                                    .setAuthor(bot.user.username, bot.user.avatarURL)
-                                    //.setURL(user.presence.game.url)
- 
-                                    .setColor("GREEN")
-                                    .setDescription(`${GetUserMention(user.id)} vient de lancer un stream sur le jeu ${""}`)
- 
- 
-                                    .addField("Lien du stream", user.presence.game.url)
-                                    //.setThumbnail(data.stream.preview.small)
-                                    .setImage(data.stream.preview.large)
-                                    .setTimestamp();
- 
-                                var salon = user.guild.channels.find("id", partage_media_id)
- 
-                                if (send_new_stream) salon.send(embed_msg)
- 
-                                console.log(`Don du rôle à '${user.user.tag}'`);
- 
-                                
-                                //} else if (data.stream.game != "Darwin Project" && user.roles.exists("id", bot.Streamer_Role)) {
-                                //        user.removeRole(bot.Streamer_Role)
-                                //        console.log(`The user changed his game in twitch, i removed the role`);
-                                
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
-            })
-        }
-    })
-    */
-
-}
-
 function GetUserMention(id) { return `<@${id}>` }
 bot.GetUserMention = function (id) { return `<@${id}>` }
 
@@ -1754,10 +1648,10 @@ bot.add_to_queue = async function (video, message) {
             return;
         }
 
-        console.log(info)
+        //console.log(info)
         console.log(`----------------------`)
         var date = new Date(null); //défini comme null la date
-        console.log(info.player_response.videoDetails.viewCount);
+        //console.log(info.player_response.videoDetails.viewCount);
         date.setSeconds(info.length_seconds); //défini la date avec des secondes
         var result = date.toISOString().substr(11, 8); // récupere le temps et le transforme en HH:mm:ss
 

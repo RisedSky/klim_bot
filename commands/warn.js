@@ -21,10 +21,6 @@ module.exports = {
                 return message.reply("❌ Vous devez absolument mettre la raison de votre avertissement.").then(m => { call.bot.deleteUserMessage(m, 10000) })
             }
 
-            //var user_warned = message.guild.members.find("id", call.args[0])
-            //var user_warned = call.bot.users.find(u => u.id == call.args[0])
-            //var user_warned = call.bot.guilds.member.guild.fetchMember(, true)
-
             call.bot.fetchUser(call.args[0], true)
                 .then(user_warned => {
                     console.log("trouvé")
@@ -45,12 +41,12 @@ module.exports = {
                             })
 
                             //const category_name = String(message.channel.parent.name).toLowerCase() //Toujours en lowercase
-                            
+
                             let logs_channel = "495968450095742976"
                             let serv = "453464806062817281"
 
-                            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
-                            
+                            let salon = call.bot.guilds.find(g => g.id === serv).channels.find(c => c.id === logs_channel)
+
                             var warn_embed = new Discord.RichEmbed()
                                 .setColor("#FFFF00")
                                 .setDescription(`:warning: L'utilisateur ${call.bot.GetUserMention(call.args[0])} (${user_warned.tag}) a reçu un avertissement par ${call.bot.GetUserMention(message.author.id)} dans le salon : <#${message.channel.id}>\n\nPour la raison suivante : \`\`\`${call.content.split(call.args[0])[1]}\`\`\` `)

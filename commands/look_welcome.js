@@ -4,7 +4,7 @@ module.exports = {
         //message, bot, bot.commands, args, content, prefix, cmd
         var pfx = await call.bot.config.prefix
             , message = await call.message
-        const Discord = await require("discord.js");
+        const Discord = require("discord.js");
 
         if (!message.member.id == "239887147765727232") return;
 

@@ -48,7 +48,7 @@ module.exports = {
                             let logs_channel = "495968450095742976"
                             let serv = "453464806062817281"
 
-                            let salon = call.bot.guilds.find("id", serv).channels.find("id", logs_channel)
+                            let salon = call.bot.guilds.find(g => g.id === serv).channels.find(c => c.id === logs_channel)
 
                             var warn_embed = new Discord.RichEmbed()
                                 .setColor("#E59400")

@@ -28,7 +28,7 @@ module.exports = {
         let role_tournois = message.guild.roles.find(r => r.name === "Tournois")
             , role_everyone = message.guild.roles.find(r => r.name === "@everyone")
             , role_user_args = call.args[0]
-            //, role_user = message.guild.members.find(async u => u.name == String(role_user_args).replace("@", ""))
+            //, role_user = message.guild.members.find(u => u.name == String(role_user_args).replace("@", ""))
             , role_user = message.guild.members.find(u => u.id === message.mentions.users.first().id)
 
         if (message.mentions.users.size > 1) {
@@ -75,7 +75,7 @@ module.exports = {
                 console.log(`Error!\nEveryone:${role_everyone}\nTournois:${role_tournois}`)
             }
                 
-            if (call.bot.member_has_MANAGE_CHANNELS || message.member.roles.find(async r => await r.id === call.bot.ResponsableSection_Role)) {
+            if (call.bot.member_has_MANAGE_CHANNELS || message.member.roles.find(r => r.id === call.bot.ResponsableSection_Role)) {
                 message.delete(4500)
         
                 if (String(message.channel.topic).includes("<locked>")) {
