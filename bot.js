@@ -589,7 +589,7 @@ bot.on("message", async (message) => {
 });
 
 bot.on("error", async err => {
-    console.error(err)
+    console.log(err)
 })
 
 bot.on("channelUpdate", async (oldchannel, newchannel) => {
