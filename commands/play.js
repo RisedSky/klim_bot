@@ -7,6 +7,7 @@ module.exports = {
         //✅ - ❌
 
         try {
+            message.delete(8000)
             if (message.guild.id !== "453464806062817281") { return message.react("❌").then(async () => { message.delete(2500) }) }
             var server = await call.bot.servers[message.guild.id]
 
@@ -41,9 +42,7 @@ module.exports = {
                 })
                 return;
             }
-            message.react("✅").then(async () => {
-                message.delete(5000)
-            })
+            message.react("✅")
 
             server.playit = true;
 
