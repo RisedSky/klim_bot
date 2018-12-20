@@ -461,7 +461,7 @@ class Call {
 }
 
 bot.on("message", async (message) => {
-    if (message.author.bot) return console.log(`It's a bot`)
+    //if (message.author.bot) return console.log(`It's a bot`)
     if (!message.guild) return console.log(`Not in a server`)
 
     if (!bot.servers[message.guild.id]) {
@@ -490,9 +490,9 @@ bot.on("message", async (message) => {
         //console.log(message.content.substr(40));
 
 
-        if (message.content.substr(40, 45).includes("RT")) {
+        if (message.content.substr(40, 10).includes("RT")) {
             if (message.deletable) await message.delete()
-        } else if (message.content.substr(55, 60).includes("@")) {
+        } else if (message.content.substr(55, 10).includes("@")) {
             if (message.deletable) await message.delete()
         }
 
@@ -626,15 +626,18 @@ bot.on("voiceStateUpdate", async (old, now) => {
         //Si le mec vient de join un vocal
         try {
 
-            log(`1- Detected the join of ${now.user.tag}`)
+            log(`1 - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    console.log(`1 - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        log(`1 - Création du salon de ${now.user.username}`)
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        /*
+                        Ancienne version
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -646,8 +649,21 @@ bot.on("voiceStateUpdate", async (old, now) => {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
                         } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        */
 
-                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        /*
+                        var categorie = now.voiceChannel.parent.name
+                        var categorie_is_role = now.guild.roles.find(r => r.name === categorie)
+                        if (categorie_is_role) {
+                            log(`1 - Rôle trouvé '${categorie}'`)
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                                .then(log("done"))
+                                .catch(error => log(error))
+                        } else {
+                            log(`1 - Rôle pas trouvé '${categorie}'`)
+                        }
+                        */
+
                         await c.setBitrate(128).catch(e => { console.log(e.message); c.setBitrate(96) })
 
                         setTimeout(async () => {
@@ -696,9 +712,13 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
 
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    log(`2 - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
+                        log(`2 - Création du salon de ${now.user.username}`)
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        /*
+                        Ancienne version des salons désormais obsolète, fait crash le bot si utilisée
+
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true }).then(console.log("done"))
@@ -710,8 +730,22 @@ bot.on("voiceStateUpdate", async (old, now) => {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true }).then(console.log("done"))
 
                         } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true })
+                        */
 
-                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        /*
+                        var categorie = now.voiceChannel.parent.name
+                        var categorie_is_role = now.guild.roles.find(r => r.name === categorie)
+                        if (categorie_is_role) {
+                            log(`2 - Rôle trouvé '${categorie}'`)
+                            await c.overwritePermissions(categorie_is_role, { VIEW_CHANNEL: true })
+                                .then(log("done"))
+                                .catch(error => log(error))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        } else {
+                            log(`2 - Rôle pas trouvé '${categorie}'`)
+                        }
+                        */
+
                         await c.setBitrate(128).catch(e => { console.log(e.message); c.setBitrate(96) })
 
                         setTimeout(async () => {
@@ -745,12 +779,12 @@ bot.on("voiceStateUpdate", async (old, now) => {
         //Si le mec vient de join un vocal
         try {
 
-            log(`1 AutresJeux- Detected the join of ${now.user.tag}`)
+            log(`1 AutresJeux - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    console.log(`1 AutresJeux - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         //c.setParent(now.voiceChannel.parent).then(() => {
                         c.setParent(now.voiceChannel.parent).then(async () => {
@@ -783,7 +817,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (now.voiceChannel.name == voice_create_voice_name_autres_jeux) {
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    console.log(`2 AutresJeux - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         //c.setParent(now.voiceChannel.parent).then(() => {
                         c.setParent(now.voiceChannel.parent).then(async () => {
@@ -814,14 +848,16 @@ bot.on("voiceStateUpdate", async (old, now) => {
         //Si le mec vient de join un vocal
         try {
 
-            log(`1 Events- Detected the join of ${now.user.tag}`)
+            log(`1 Events - Detected the join of ${now.user.tag}`)
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 //now.voiceChannel.overwritePermissions(now.user, { CONNECT: false })
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    console.log(`1 Events - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         await c.overwritePermissions(now.guild.me, { VIEW_CHANNEL: true, MANAGE_CHANNELS: true, MANAGE_ROLES_OR_PERMISSIONS: true })
+                        /*
+                        Ancienne version
                         if (now.voiceChannel.parent.name === "Rocket League & FIFA") {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Rocket League"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "FIFA"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
@@ -833,8 +869,22 @@ bot.on("voiceStateUpdate", async (old, now) => {
                             await c.overwritePermissions(now.guild.roles.find(r => r.name === "Playerunknown's Battlegrounds"), { VIEW_CHANNEL: true, CONNECT: false }).then(console.log("done"))
 
                         } else c.overwritePermissions(now.guild.roles.find(r => r.name === now.voiceChannel.parent.name), { VIEW_CHANNEL: true, CONNECT: false })
+                        */
 
-                        await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        /*
+                        var categorie = now.voiceChannel.parent.name
+                        var categorie_is_role = now.guild.roles.find(r => r.name === categorie)
+                        if (categorie_is_role) {
+                            log(`1 Events - Rôle trouvé '${categorie}'`)
+                            await c.overwritePermissions(categorie_is_role, { VIEW_CHANNEL: true })
+                                .then(log("done"))
+                                .catch(error => log(error))
+                            await c.overwritePermissions(now.guild.roles.find(r => r.name === "@everyone"), { VIEW_CHANNEL: false })
+                        } else {
+                            log(`1 Events - atégorie pas trouvée '${categorie}'`)
+                        }
+                        */
+
                         await c.setBitrate(128).catch(e => { console.log(e.message); c.setBitrate(96) })
 
                         setTimeout(async () => {
@@ -870,7 +920,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
             if (now.voiceChannel.name == voice_create_voice_name_events) {
                 var channel = now.voiceChannel.guild.channels.find(c => c.name === `[PV] ${now.user.username}`)
                 if (!channel) {
-                    console.log(`Pas de salon au nom de [PV] ${now.user.username}`)
+                    console.log(`2 Events - Pas de salon au nom de [PV] ${now.user.username}`)
                     await now.voiceChannel.guild.createChannel(`[PV] ${now.user.username}`, "voice").then(async c => {
                         //c.setParent(now.voiceChannel.parent).then(() => {
                         c.setParent(now.voiceChannel.parent).then(async () => {
@@ -914,7 +964,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
                 await now.user.createDM().then(async c => await c.send(embed_kick_private))
                 await now.setVoiceChannel(salon)
 
-            } /*else if (now.voiceChannel.name.includes("[TRN]")) {//Si le salon dans lequel il est contient [PV]
+            } /*else if (now.voiceChannel.name.includes("[TRN]")) {//Si le salon dans lequel il est contient [TRN]
                 var embed_kick_private = new Discord.RichEmbed()
                     .setColor("RED")
                     .setDescription(`Vous avez été exclu du salon de **${now.voiceChannel.name.split("[TRN]")[1].slice(1)}**`)
@@ -965,7 +1015,7 @@ bot.on("voiceStateUpdate", async (old, now) => {
 
 bot.login(bot.config.BOT_TOKEN)
 
-
+/*
 bot.on("messageReactionAdd", async (reaction, user) => {
     try {
         let getout = Boolean
@@ -973,290 +1023,275 @@ bot.on("messageReactionAdd", async (reaction, user) => {
         const salonHighlight = "495968450095742976"
             , serv = "453464806062817281"
 
-        if (user.bot) return console.log("bot reaction detected")
-        if (!reaction.message.guild) return await console.log("pas guild");
+        if (user.bot) return console.log("mrAdd - bot reaction detected")
+        if (!reaction.message.guild) return await console.log("mrAdd - pas guild");
         console.log("id => " + reaction.message.author.id)
         //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
-        if (!reaction.message.author.bot) return await console.log("pas mwa")
-        if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
+        if (!reaction.message.author.bot) return await console.log("mrAdd - pas mwa")
+        if (!reaction.message.author.id == bot.user.id) return await console.log("mrAdd - pas mwa !")
 
-        /*
-        reaction.message.guild.fetchMember(user, true).then(user => {
-            user.roles.find(r => {
-                if ((r.id == bot.ResponsableSection_Role) || (r.id == bot.Moderateur_Role)) {
-                    //if ((r.id == "440172608969900035") || (r.id == "475790839919017994")) {R Streamer R Translator G private
-                    getout = true
-                    try {
-                        reaction.remove(user)
-                    } catch (error) {
-                        console.log(`Can't remove reaction of ${user.user.tag}`)
+//console.log(reaction.emoji)
+//console.log(user.username)
+setTimeout(async () => {
+    if (getout == true) return console.log(`getout is true`);
+    switch (reaction.emoji.id) {
+
+        //#region Pole Battle Royale
+        //PUBG
+        case games.pubgid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.pubgname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.pubgname)).then(async () => {
+
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.pubgname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.pubgname}**`)
+
+                        })
+                    } else {
+                        console.log("pas trouvé")
                     }
-                    return console.log("detected ResponsableSection_Role / Moderateur_Role")
-                }
-            })
-        })
-        */
+                })
+                .catch(async e => console.log(e))
+            break;
 
-        //console.log(reaction.emoji)
-        //console.log(user.username)
-        setTimeout(async () => {
-            if (getout == true) return console.log(`getout is true`);
-            switch (reaction.emoji.id) {
+        //FTN
+        case games.fortniteid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.fortnitename)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.fortnitename)).then(async () => {
 
-                //#region Pole Battle Royale
-                //PUBG
-                case games.pubgid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.pubgname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.pubgname)).then(async () => {
-
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.pubgname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.pubgname}**`)
-
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fortnitename}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.fortnitename}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //FTN
-                case games.fortniteid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.fortnitename)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.fortnitename)).then(async () => {
+        //COD
+        case games.bo4id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.bo4name)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.bo4name)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fortnitename}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.fortnitename}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.bo4name}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.bo4name}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //COD
-                case games.bo4id:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.bo4name)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.bo4name)).then(async () => {
+        //#endregion
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.bo4name}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.bo4name}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+        //#region Pole FPS
+        //CS
+        case games.csgoid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.csgoname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.csgoname)).then(async () => {
+
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.csgoname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.csgoname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //#endregion
+        //R6
+        case games.r6sid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.r6sname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.r6sname)).then(async () => {
 
-                //#region Pole FPS
-                //CS
-                case games.csgoid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.csgoname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.csgoname)).then(async () => {
-
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.csgoname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.csgoname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.r6sname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.r6sname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //R6
-                case games.r6sid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.r6sname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.r6sname)).then(async () => {
+        //OW
+        case games.owid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.owname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.owname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.r6sname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.r6sname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.owname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.owname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
+        //#endregion
 
-                //OW
-                case games.owid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.owname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.owname)).then(async () => {
+        //#region Pole MMOBA - Sports
+        //WOW
+        case games.wowid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.wowname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.wowname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.owname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.owname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.wowname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.wowname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
-                //#endregion
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //#region Pole MMOBA - Sports
-                //WOW
-                case games.wowid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.wowname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.wowname)).then(async () => {
+        //HS
+        case games.hsid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.hsname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.hsname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.wowname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.wowname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.hsname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.hsname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //HS
-                case games.hsid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.hsname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.hsname)).then(async () => {
+        //D2
+        case games.dota2id:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.dota2name)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.dota2name)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.hsname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.hsname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.dota2name}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.dota2name}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //D2
-                case games.dota2id:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.dota2name)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.dota2name)).then(async () => {
+        //lol
+        case games.lolid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.lolname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.dota2name}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.dota2name}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.lolname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //lol
-                case games.lolid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.lolname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
+        //lol du serv offi
+        case games.lolidserv:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.lolname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.lolname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.lolname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //lol du serv offi
-                case games.lolidserv:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.lolname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.lolname)).then(async () => {
+        //RL
+        case games.rocketid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.rocketname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.rocketname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.lolname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.lolname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.rocketname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.rocketname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //RL
-                case games.rocketid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.rocketname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.rocketname)).then(async () => {
+        //FIFA
+        case games.fifaid:
+            await guild.fetchMember(user, true)
+                .then(async member => {
+                    if (!member.roles.find(r => r.name == games.fifaname)) {
+                        console.log("trouvé")
+                        await member.addRole(guild.roles.find(r => r.name == games.fifaname)).then(async () => {
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.rocketname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.rocketname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
+                            await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fifaname}\` ajouté.`))
+                            await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.fifaname}**`)
                         })
-                        .catch(async e => console.log(e))
-                    break;
+                    } else {
+                        console.log("pas trouvé")
+                    }
+                })
+                .catch(async e => console.log(e))
+            break;
 
-                //FIFA
-                case games.fifaid:
-                    await guild.fetchMember(user, true)
-                        .then(async member => {
-                            if (!member.roles.find(r => r.name == games.fifaname)) {
-                                console.log("trouvé")
-                                await member.addRole(guild.roles.find(r => r.name == games.fifaname)).then(async () => {
+        //#endregion
 
-                                    await user.createDM().then(async c => await c.send(`✅ Rôle \`${games.fifaname}\` ajouté.`))
-                                    await bot.guilds.find(s => s.id == serv).channels.find(c => c.id == salonHighlight).send(`**${user.tag}** s'est donné le rôle :arrow_right: **${games.fifaname}**`)
-                                })
-                            } else {
-                                console.log("pas trouvé")
-                            }
-                        })
-                        .catch(async e => console.log(e))
-                    break;
-
-                //#endregion
-
-                default:
-                    break;
-            }
-
-        }, 2500);
-    } catch (error) {
-        console.log(`messageReactionAdd error`)
-        console.log(error)
+        default:
+            break;
     }
-})
 
+}, 2500);
+    } catch (error) {
+    console.log(`messageReactionAdd error`)
+    console.log(error)
+}
+})
+*/
+
+/*
 bot.on("messageReactionRemove", async (reaction, user) => {
     try {
         let getout = Boolean
@@ -1264,23 +1299,12 @@ bot.on("messageReactionRemove", async (reaction, user) => {
         const salonHighlight = "495968450095742976"
             , serv = "453464806062817281"
 
-        if (user.bot) return console.log("bot reaction detected")
-        if (!reaction.message.guild) return await console.log("pas guild");
-        console.log("id => " + reaction.message.author.id)
+        if (user.bot) return console.log("mrRem - bot reaction detected")
+        if (!reaction.message.guild) return await console.log("mrRem - pas guild");
+        console.log("mrRem - id => " + reaction.message.author.id)
         //if (!reaction.message.author.id == "445592720157704222") return console.log("pas mwa")
-        if (!reaction.message.author.bot) return await console.log("pas mwa")
-        if (!reaction.message.author.id == bot.user.id) return await console.log("pas mwa !")
-
-        /*
-        await reaction.message.guild.fetchMember(user, true).then(user => {
-            user.roles.find(r => {
-                if (r.id == bot.ResponsableSection_Role || r.id == bot.Moderateur_Role) {
-                    getout = true
-                    return console.log("detected ResponsableSection_Role / Moderateur_Role")
-                }
-            })
-        })
-        */
+        if (!reaction.message.author.bot) return await console.log("mrRem - pas mwa")
+        if (!reaction.message.author.id == bot.user.id) return await console.log("mrRem - pas mwa !")
 
         setTimeout(async () => {
             if (getout == true) return console.log(`getout is true`);
@@ -1541,6 +1565,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
         console.log(error)
     }
 })
+*/
 
 const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
