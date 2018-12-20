@@ -8,6 +8,8 @@ module.exports = {
         try {
             if (!call.bot.admin_id.includes(call.message.member.id)) return message.delete()
 
+            message.delete(5000)
+
             var time = call.bot.moment.duration(call.bot.uptime, "milliseconds");
 
             var time_string;
